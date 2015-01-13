@@ -1,0 +1,14 @@
+Debug console for quadcoptor
+--------
+
+Including part of uav by sanjuchopracool and QCustomPlot.
+
+## Build
+
+qmake
+make
+
+----------
+
+Protocol Documentation: https://emb_team3.hackpad.com/control-protocol-nx400CBIemr
+
