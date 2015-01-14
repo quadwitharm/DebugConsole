@@ -19,6 +19,9 @@ void InputProcessor::GetInput(QByteArray input)
         case COMMAND_RETURN:
             data = new CommandReturn(this);
             break;
+        case SENSOR_DATA:
+            data = new SensorData(this);
+            break;
         case FLIGHT_DATA:
             data = new ControllerData(this);
             break;
@@ -30,14 +33,15 @@ void InputProcessor::GetInput(QByteArray input)
             /* Something wrong here */
             break;
         }
-    }else{
-        QByteArray remain;
-        if(data->acceptData(input, remain)){
-            data->process();
-            delete data; data = nullptr;
-            if(!remain.isEmpty())
-                GetInput(remain);
-        }
+        input = QByteArray(input.data()+1,input.size()-1);
+    }
+    if(input.isEmpty())return;
+    QByteArray remain;
+    if(data->acceptData(input, remain)){
+        data->process();
+        delete data; data = nullptr;
+        if(!remain.isEmpty())
+            GetInput(remain);
     }
 }
 
@@ -115,18 +119,49 @@ void ControllerData::process()
             emit ip->GotControllerPitch(data[1],1);
             emit ip->GotControllerYaw(data[2],1);
         break;
-        case MotorOut: break;
-
+        case MotorOut:
+            qDebug() << "Not Handle Motor Output yet";
+        break;
+        default: qDebug() << QString("Invalid controll data : ") + type + QString("!!!") ; while(1);
     }
 }
 
 bool DebugData::acceptData(const QByteArray &input, QByteArray &remain)
 {
+    QByteArray in = input;
+    if(!a && !in.isEmpty()){
+        a = true;
+        size[0] = in.data()[0];
+        in = QByteArray(in.data()+1,in.size()-1);
+    }
+    if(!b && !in.isEmpty()){
+        b = true;
+        size[1] = in.data()[0];
+        in = QByteArray(in.data()+1,in.size()-1);
+    }
+    if(a && b){
+        u_int16_t Size = (size[1] << 8) + size[0];
+        if(content.size() + in.size() < Size){
+            content.append(in);
+        }else{
+            content.append(in.data(),Size-content.size());
+            ip->DebugOutput(content);
+            qDebug() << content;
+            remain.append(remain.data()+Size-content.size(),remain.size()-Size+content.size());
+            return true;
+        }
+        return false;
+    }
+    return false;
+}
+
+bool SensorData::acceptData(const QByteArray &input, QByteArray &remain)
+{
     (void)input,(void)remain;
     return false; //TODO: implement
 }
 
-void DebugData::process()
+void SensorData::process()
 {
 
 }

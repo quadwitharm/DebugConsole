@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QByteArray>
 
-enum DataOrientation{ COMMAND_RETURN, FLIGHT_DATA, DEBUG_DATA };
+enum DataOrientation{ COMMAND_RETURN, SENSOR_DATA, FLIGHT_DATA, DEBUG_DATA };
 typedef enum DataOrientation DataOrientation;
 
 class InputProcessor;
@@ -24,6 +24,12 @@ struct CommandReturn : public DataType{
     void process();
     virtual ~CommandReturn(){}
 };
+struct SensorData : public DataType{
+    SensorData(InputProcessor *ip) : DataType(ip) {}
+    bool acceptData(const QByteArray &input,QByteArray &remain);
+    void process();
+    virtual ~SensorData(){}
+};
 struct ControllerData : public DataType{
     ControllerData(InputProcessor *ip) : DataType(ip) {}
     bool acceptData(const QByteArray &input,QByteArray &remain);
@@ -34,10 +40,14 @@ private:
     QByteArray content;
 };
 struct DebugData : public DataType{
-    DebugData(InputProcessor *ip) : DataType(ip) {}
-    bool acceptData(const QByteArray &input,QByteArray &remain);
-    void process();
+    DebugData(InputProcessor *ip) : DataType(ip), size(),a(false),b(false){}
+    bool acceptData(const QByteArray &input, QByteArray &);
+    void process(){}
     virtual ~DebugData(){}
+private:
+    u_int8_t size[2];
+    bool a,b;
+    QByteArray content;
 };
 
 
@@ -53,6 +63,7 @@ signals:
     void GotControllerRoll(double value, int line);
     void GotControllerPitch(double value, int line);
     void GotControllerYaw(double value, int line);
+    void DebugOutput(QByteArray);
 private:
     DataType *data;
 };

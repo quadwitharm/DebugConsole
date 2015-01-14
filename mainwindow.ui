@@ -24,7 +24,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="consoleTab">
        <attribute name="title">
@@ -409,6 +409,9 @@
                 </item>
                 <item>
                  <widget class="QDial" name="SetPoint">
+                  <property name="statusTip">
+                   <string/>
+                  </property>
                   <property name="minimum">
                    <number>-180</number>
                   </property>
