@@ -13,7 +13,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow),
     serial(this),
     ip(this),
-    cs(this,&serial)
+    cs(this,&serial),
+    line1(),
+    line2(),
+    line3()
 {
     ui->setupUi(this);
     ui->portSelection->setEnabled(true);
@@ -27,6 +30,16 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->closeButton->setDisabled(true);
     ui->openButton->setFocus();
     refreshDevices();
+    line1.Reset(ui->plotWidget1);
+    line2.Reset(ui->plotWidget2);
+    line3.Reset(ui->plotWidget3);
+    line1.NewData(0.1,4);
+    line1.NewData(0.1,6);
+    line1.NewData(0.1,3);
+    line1.NewData(0.1,44);
+    line1.NewData(0.1,44);
+    line1.NewData(0.1,45);
+    line1.NewData(0.1,490);
 }
 
 MainWindow::~MainWindow()

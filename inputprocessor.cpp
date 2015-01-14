@@ -20,7 +20,7 @@ void InputProcessor::GetInput(QByteArray input)
         QByteArray remain;
         idata->acceptData(input, remain);
         if(idata->isDataComplete() && !remain.isEmpty()){
-            idata->process();
+            emit this->PacketReceived(*idata);
             delete idata;
             idata = nullptr;
             GetInput(remain);
@@ -60,4 +60,23 @@ bool InputData::isDataComplete()
 InputData::~InputData()
 {
     delete data;
+}
+
+
+bool CommandReturn::acceptData(const QByteArray &input, QByteArray &remain)
+{
+    (void)input,(void)remain;
+    return false; //TODO: implement
+}
+
+bool FlightData::acceptData(const QByteArray &input, QByteArray &remain)
+{
+    (void)input,(void)remain;
+    return false; //TODO: implement
+}
+
+bool DebugData::acceptData(const QByteArray &input, QByteArray &remain)
+{
+    (void)input,(void)remain;
+    return false; //TODO: implement
 }

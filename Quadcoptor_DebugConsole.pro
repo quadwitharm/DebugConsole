@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     serial.cpp \
     terminal.cpp \
     inputprocessor.cpp \
-    commandsender.cpp
+    commandsender.cpp \
+    signalline.cpp
 
 HEADERS  += mainwindow.h \
     ../qcustomplot/qcustomplot.h \
@@ -27,6 +28,7 @@ HEADERS  += mainwindow.h \
     serial.h \
     terminal.h \
     inputprocessor.h \
-    commandsender.h
+    commandsender.h \
+    signalline.h
 
 FORMS    += mainwindow.ui

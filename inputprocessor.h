@@ -31,7 +31,6 @@ public:
     explicit InputData(DataOrientation dataOrientation);
     void acceptData(const QByteArray &input,QByteArray &remain);
     bool isDataComplete();
-    void process();
     ~InputData();
 private:
     DataType *data;
@@ -48,6 +47,8 @@ public:
 
 public slots:
     void GetInput(QByteArray);
+signals:
+    void PacketReceived(InputData &);
 private:
     InputData *idata;
 };

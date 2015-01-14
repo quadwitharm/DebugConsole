@@ -5,6 +5,7 @@
 #include "serial.h"
 #include "inputprocessor.h"
 #include "commandsender.h"
+#include "signalline.h"
 
 namespace Ui {
 class MainWindow;
@@ -32,6 +33,8 @@ private:
     Serial serial;
     InputProcessor ip;
     CommandSender cs;
+
+    SignalLine line1, line2, line3;
 };
 
 #endif // MAINWINDOW_H
