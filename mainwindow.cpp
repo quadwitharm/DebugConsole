@@ -33,13 +33,12 @@ MainWindow::MainWindow(QWidget *parent) :
     line1.Reset(ui->plotWidget1);
     line2.Reset(ui->plotWidget2);
     line3.Reset(ui->plotWidget3);
-    line1.NewData(0.1,4);
-    line1.NewData(0.1,6);
-    line1.NewData(0.1,3);
-    line1.NewData(0.1,44);
-    line1.NewData(0.1,44);
-    line1.NewData(0.1,45);
-    line1.NewData(0.1,490);
+
+    connect(&ip,&InputProcessor::GotControllerRoll,&line1,&ControllerPlot::NewData);
+    connect(&ip,&InputProcessor::GotControllerPitch,&line2,&ControllerPlot::NewData);
+    connect(&ip,&InputProcessor::GotControllerYaw,&line3,&ControllerPlot::NewData);
+
+    connect(ui->roll_kd,&QSlider::sliderMoved,this,&MainWindow::sendRollPIDParam);
 }
 
 MainWindow::~MainWindow()
@@ -125,4 +124,85 @@ void MainWindow::on_closeButton_pressed()
 void MainWindow::on_clearButton_pressed()
 {
     ui->terminal->clear();
+}
+
+void MainWindow::on_Send_pressed()
+{
+    cs.SendCommand(DebugCommand(ui->lineEdit->text()));
+}
+// Roll
+void MainWindow::on_SetPoint_valueChanged(int) { sendSetPoints(); }
+// Pitch
+void MainWindow::on_SetPoint_3_valueChanged(int) { sendSetPoints(); }
+// Yaw
+void MainWindow::on_SetPoint_2_valueChanged(int) { sendSetPoints(); }
+
+void MainWindow::sendRollPIDParam(int)
+{
+    float data[3] = {(float)ui->roll_kp->value(), (float)ui->roll_ki->value(), (float)ui->roll_kd->value()};
+    cs.SendCommand(
+        Command(0x04,
+            QByteArray().append((char)0x00).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+    );
+}
+
+void MainWindow::sendPitchPIDParam(int)
+{
+    float data[3] = {(float)ui->pitch_kp_3->value(), (float)ui->pitch_ki_3->value(), (float)ui->pitch_kd_3->value()};
+    cs.SendCommand(
+        Command(0x04,
+            QByteArray().append((char)0x01).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+    );
+}
+
+void MainWindow::sendYawPIDParam(int)
+{
+    float data[3] = {(float)ui->yaw_kp_2->value(), (float)ui->yaw_ki_2->value(), (float)ui->yaw_kd_2->value()};
+    cs.SendCommand(
+        Command(0x04,
+            QByteArray().append((char)0x02).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+    );
+}
+
+void MainWindow::sendRollRatePIDParam(int)
+{
+    float data[3] = {(float)ui->roll_rate_kp->value(), (float)ui->roll_rate_ki->value(), (float)ui->roll_rate_kd->value()};
+    cs.SendCommand(
+        Command(0x04,
+            QByteArray().append((char)0x03).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+    );
+}
+
+void MainWindow::sendPitchRatePIDParam(int)
+{
+    float data[3] = {(float)ui->pitch_rate_kp_3->value(), (float)ui->pitch_rate_ki_3->value(), (float)ui->pitch_rate_kd_3->value()};
+    cs.SendCommand(
+        Command(0x04,
+            QByteArray().append((char)0x04).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+    );
+}
+
+void MainWindow::sendYawRatePIDParam(int)
+{
+    float data[3] = {(float)ui->yaw_rate_kp_2->value(), (float)ui->yaw_rate_ki_2->value(), (float)ui->yaw_rate_kd_2->value()};
+    cs.SendCommand(
+        Command(0x04,
+            QByteArray().append((char)0x05).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+    );
+}
+
+void MainWindow::sendSetPoints()
+{
+    float data[3] = {(float)ui->SetPoint->value(), (float)ui->SetPoint_3->value(), (float)ui->SetPoint_2->value()};
+    cs.SendCommand(
+        Command(0x05,
+            QByteArray().append((char)0x00).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+    );
 }

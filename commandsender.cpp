@@ -3,28 +3,23 @@
 
 CommandSender::CommandSender(QObject *parent, Serial *serial)
  : QObject(parent), serial(serial)
-{
-}
+{ }
 
 CommandSender::~CommandSender()
-{
+{ }
 
+void CommandSender::SendCommand(Command cmd)
+{
+    serial->writeToPort(cmd.getDataPacket().data(),cmd.getDataPacket().size());
 }
 
-void CommandSender::SendCommand(Command &)
-{
-
-}
-
-Command::Command(CommandType, QByteArray)
-{
-
-}
+Command::Command(CommandType type, QByteArray arg)
+    : type(type),
+    argument(arg)
+{}
 
 Command::~Command()
-{
-
-}
+{ }
 
 QByteArray Command::getDataPacket()
 {
@@ -33,3 +28,7 @@ QByteArray Command::getDataPacket()
     ret.append( this->argument );
     return ret;
 }
+
+DebugCommand::DebugCommand(QString str)
+    :Command(0xFF, QByteArray().append(str.size() >> 8).append(str.size()).append(str))
+{  }

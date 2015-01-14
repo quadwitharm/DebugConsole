@@ -16,7 +16,13 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QTabWidget" name="tabWidget">
+     <widget class="QTabWidget" name="SensorTab">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>4</height>
+       </size>
+      </property>
       <property name="currentIndex">
        <number>1</number>
       </property>
@@ -338,8 +344,8 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
-            <widget class="QWidget" name="widget_2" native="true">
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <widget class="QWidget" name="Roll" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
               <item>
                <widget class="QCustomPlot" name="plotWidget1" native="true">
                 <property name="minimumSize">
@@ -351,61 +357,74 @@
                </widget>
               </item>
               <item>
-               <layout class="QFormLayout" name="formLayout_5">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_14">
-                  <property name="text">
-                   <string>kP</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QSlider" name="kpSlider">
+               <layout class="QHBoxLayout" name="ControlAxis">
+                <item>
+                 <widget class="QSlider" name="roll_kp">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Vertical</enum>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_15">
-                  <property name="text">
-                   <string>kI</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QSlider" name="kiSlider">
+                <item>
+                 <widget class="QSlider" name="roll_ki">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Vertical</enum>
                   </property>
                  </widget>
                 </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_16">
-                  <property name="text">
-                   <string>kD</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QSlider" name="kdSlider">
+                <item>
+                 <widget class="QSlider" name="roll_kd">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Vertical</enum>
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="setPointLabel_6">
-                  <property name="text">
-                   <string>SetPoint</string>
+                <item>
+                 <widget class="Line" name="line">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="1">
-                 <widget class="QDial" name="setPointDial_3"/>
+                <item>
+                 <widget class="QSlider" name="roll_rate_kp">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="roll_rate_ki">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="roll_rate_kd">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDial" name="SetPoint">
+                  <property name="minimum">
+                   <number>-180</number>
+                  </property>
+                  <property name="maximum">
+                   <number>180</number>
+                  </property>
+                  <property name="pageStep">
+                   <number>0</number>
+                  </property>
+                  <property name="invertedAppearance">
+                   <bool>false</bool>
+                  </property>
+                  <property name="invertedControls">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -413,8 +432,8 @@
             </widget>
            </item>
            <item>
-            <widget class="QWidget" name="widget_4" native="true">
-             <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <widget class="QWidget" name="Pitch" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_7">
               <item>
                <widget class="QCustomPlot" name="plotWidget2" native="true">
                 <property name="minimumSize">
@@ -426,61 +445,68 @@
                </widget>
               </item>
               <item>
-               <layout class="QFormLayout" name="formLayout_3">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_8">
-                  <property name="text">
-                   <string>kP</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QSlider" name="horizontalSlider_4">
+               <layout class="QHBoxLayout" name="ControlAxis_3">
+                <item>
+                 <widget class="QSlider" name="pitch_kp_3">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Vertical</enum>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_9">
-                  <property name="text">
-                   <string>kI</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QSlider" name="horizontalSlider_6">
+                <item>
+                 <widget class="QSlider" name="pitch_ki_3">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Vertical</enum>
                   </property>
                  </widget>
                 </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_10">
-                  <property name="text">
-                   <string>kD</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QSlider" name="horizontalSlider_5">
+                <item>
+                 <widget class="QSlider" name="pitch_kd_3">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Vertical</enum>
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="setPointLabel_2">
-                  <property name="text">
-                   <string>SetPoint</string>
+                <item>
+                 <widget class="Line" name="line_3">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="1">
-                 <widget class="QDial" name="setPointDial"/>
+                <item>
+                 <widget class="QSlider" name="pitch_rate_kp_3">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="pitch_rate_ki_3">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="pitch_rate_kd_3">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDial" name="SetPoint_3">
+                  <property name="minimum">
+                   <number>-180</number>
+                  </property>
+                  <property name="maximum">
+                   <number>180</number>
+                  </property>
+                  <property name="pageStep">
+                   <number>0</number>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -488,8 +514,8 @@
             </widget>
            </item>
            <item>
-            <widget class="QWidget" name="widget_3" native="true">
-             <layout class="QHBoxLayout" name="horizontalLayout_4">
+            <widget class="QWidget" name="Yaw" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
               <item>
                <widget class="QCustomPlot" name="plotWidget3" native="true">
                 <property name="minimumSize">
@@ -498,65 +524,71 @@
                   <height>0</height>
                  </size>
                 </property>
-                <zorder>formLayoutWidget_3</zorder>
                </widget>
               </item>
               <item>
-               <layout class="QFormLayout" name="formLayout_4">
-                <property name="fieldGrowthPolicy">
-                 <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-                </property>
-                <item row="0" column="0">
-                 <widget class="QLabel" name="label_11">
-                  <property name="text">
-                   <string>kP</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="0" column="1">
-                 <widget class="QSlider" name="horizontalSlider_7">
+               <layout class="QHBoxLayout" name="ControlAxis_2">
+                <item>
+                 <widget class="QSlider" name="yaw_kp_2">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Vertical</enum>
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="0">
-                 <widget class="QLabel" name="label_12">
-                  <property name="text">
-                   <string>kI</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="1">
-                 <widget class="QSlider" name="horizontalSlider_8">
+                <item>
+                 <widget class="QSlider" name="yaw_ki_2">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Vertical</enum>
                   </property>
                  </widget>
                 </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="label_13">
-                  <property name="text">
-                   <string>kD</string>
-                  </property>
-                 </widget>
-                </item>
-                <item row="2" column="1">
-                 <widget class="QSlider" name="horizontalSlider_9">
+                <item>
+                 <widget class="QSlider" name="yaw_kd_2">
                   <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
+                   <enum>Qt::Vertical</enum>
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="0">
-                 <widget class="QLabel" name="setPointLabel_4">
-                  <property name="text">
-                   <string>SetPoint</string>
+                <item>
+                 <widget class="Line" name="line_2">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
                   </property>
                  </widget>
                 </item>
-                <item row="3" column="1">
-                 <widget class="QDial" name="setPointDial_2"/>
+                <item>
+                 <widget class="QSlider" name="yaw_rate_kp_2">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="yaw_rate_ki_2">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QSlider" name="yaw_rate_kd_2">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDial" name="SetPoint_2">
+                  <property name="minimum">
+                   <number>-180</number>
+                  </property>
+                  <property name="maximum">
+                   <number>180</number>
+                  </property>
+                  <property name="pageStep">
+                   <number>0</number>
+                  </property>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -564,12 +596,36 @@
             </widget>
            </item>
           </layout>
-          <zorder>widget_3</zorder>
-          <zorder>widget_2</zorder>
-          <zorder>widget_4</zorder>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QSlider" name="verticalSlider">
+          <property name="minimumSize">
+           <size>
+            <width>32</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::DefaultContextMenu</enum>
+          </property>
+          <property name="maximum">
+           <number>1000</number>
+          </property>
+          <property name="value">
+           <number>500</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
          </widget>
         </item>
        </layout>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Sensor</string>
+       </attribute>
       </widget>
      </widget>
     </item>

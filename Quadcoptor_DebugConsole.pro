@@ -20,15 +20,15 @@ SOURCES += main.cpp\
     terminal.cpp \
     inputprocessor.cpp \
     commandsender.cpp \
-    signalline.cpp
+    controllerplot.cpp
 
 HEADERS  += mainwindow.h \
-    ../qcustomplot/qcustomplot.h \
 	qcustomplot.h \
     serial.h \
     terminal.h \
     inputprocessor.h \
     commandsender.h \
-    signalline.h
+    Controller \
+    controllerplot.h
 
 FORMS    += mainwindow.ui

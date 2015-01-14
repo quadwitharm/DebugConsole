@@ -6,23 +6,22 @@
 #include <QVector>
 #include "qcustomplot.h"
 
-class SignalLine : public QObject
+class ControllerPlot : public QObject
 {
     Q_OBJECT
 public:
-    explicit SignalLine(QObject *parent = 0);
+    explicit ControllerPlot(QObject *parent = 0);
+    ~ControllerPlot();
+
     void setTimeRange(double);
     void setValueRange(double);
-    ~SignalLine();
-signals:
-
-public slots:
-    void NewData(double offset,double value);
+    void NewData(double value,int line);
+    void NextFrame(double offset);
     void Reset(QCustomPlot *qcp);
 
 private:
     double rightPoint, timeRange, valueRange;
-
+    bool line0, line1;
     QCustomPlot *qcp;
 };
 

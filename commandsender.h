@@ -13,9 +13,14 @@ public :
     Command(CommandType, QByteArray);
     ~Command();
     QByteArray getDataPacket();
-private:
+protected:
     CommandType type;
     QByteArray argument;
+};
+
+class DebugCommand : public Command{
+public:
+    DebugCommand(QString str);
 };
 
 class CommandSender : public QObject
@@ -25,7 +30,7 @@ public:
     explicit CommandSender(QObject *parent, Serial *serial);
     ~CommandSender();
 
-    void SendCommand(Command &);
+    void SendCommand(Command);
 private:
     Serial *serial;
 };
