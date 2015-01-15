@@ -18,6 +18,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void verticalSlider();
 public slots:
     void refreshDevices();
 
@@ -30,18 +31,12 @@ private slots:
 
     void on_Send_pressed();
 
-    void on_SetPoint_valueChanged(int value);
-
-    void on_SetPoint_3_valueChanged(int value);
-
-    void on_SetPoint_2_valueChanged(int value);
-
-    void sendRollPIDParam(int);
-    void sendPitchPIDParam(int);
-    void sendYawPIDParam(int);
-    void sendRollRatePIDParam(int);
-    void sendPitchRatePIDParam(int);
-    void sendYawRatePIDParam(int);
+    void sendRollPIDParam();
+    void sendPitchPIDParam();
+    void sendYawPIDParam();
+    void sendRollRatePIDParam();
+    void sendPitchRatePIDParam();
+    void sendYawRatePIDParam();
     void on_pushButton_pressed();
 
     void on_pushButton_4_pressed();
@@ -50,6 +45,12 @@ private slots:
 
     void on_pushButton_2_pressed();
 
+    void on_SetPoint_sliderReleased();
+
+    void on_SetPoint_3_sliderReleased();
+
+    void on_SetPoint_2_sliderReleased();
+
 private:
     void sendSetPoints();
     Ui::MainWindow *ui;
@@ -57,7 +58,10 @@ private:
     InputProcessor *ip;
     CommandSender *cs;
 
-    ControllerPlot line1, line2, line3;
+    PlotHelper controllerLine1, controllerLine2, controllerLine3;
+    PlotHelper grawLine1, grawLine2, grawLine3;
+    PlotHelper arawLine1, arawLine2, arawLine3;
+    PlotHelper filterLine1, filterLine2, filterLine3;
 };
 
 #endif // MAINWINDOW_H

@@ -10,7 +10,11 @@ CommandSender::~CommandSender()
 
 void CommandSender::SendCommand(Command cmd)
 {
-    serial->writeToPort(cmd.getDataPacket().data(),cmd.getDataPacket().size());
+    auto packet = cmd.getDataPacket();
+    for(int i = 0;i < packet.size();++i){
+        serial->writeToPort(packet.data()+i,1);
+        QThread::msleep(3);
+    }
 }
 
 Command::Command(CommandType type, QByteArray arg)

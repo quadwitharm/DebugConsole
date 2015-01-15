@@ -6,22 +6,24 @@
 #include <QVector>
 #include "qcustomplot.h"
 
-class ControllerPlot : public QObject
+class PlotHelper : public QObject
 {
     Q_OBJECT
 public:
-    explicit ControllerPlot(QObject *parent = 0);
-    ~ControllerPlot();
+    explicit PlotHelper(int enableLine,QObject *parent = 0);
+    ~PlotHelper();
 
     void setTimeRange(double);
+    void setFrequency(double);
     void setValueRange(double);
     void NewData(double value,int line);
     void NextFrame(double offset);
     void Reset(QCustomPlot *qcp);
 
 private:
-    double rightPoint, timeRange, valueRange;
-    bool line0, line1;
+    double rightPoint, timeRange, valueRange, frequency;
+    QVector<bool> lineReady;
+    int enableLine;
     QCustomPlot *qcp;
 };
 

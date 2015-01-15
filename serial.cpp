@@ -1,4 +1,5 @@
 #include "serial.h"
+#include <QtSerialPort/QSerialPort>
 void printError(const Serial* port)
 {
     qDebug() << port->getDeviceName()  << " Error: " << QString(strerror(errno));
@@ -304,6 +305,54 @@ void Serial::run()
     char buffer[4096] ,*charPtr;
     QByteArray array;
     int num = 0, numSent=0,noToSent=0;
+
+
+//    QSerialPort s(QString::fromStdString(deviceName));
+
+//    s.setBaudRate(9650);
+//    s.setDataBits(QSerialPort::Data8);
+//    s.setParity(QSerialPort::NoParity);
+//    s.setStopBits(QSerialPort::OneStop);
+//    s.open(QIODevice::ReadWrite);
+//    while(!stopThread)
+//    {
+//        if(readFlag)
+//        {
+//             mutex.lock();
+
+//                /*
+//             *Reading from port
+//             */
+//             QByteArray array(s.readAll());
+//             ReceiveBuff.append( s.readAll() );
+//             emit signalReceied(array);
+//             mutex.unlock();
+
+//             noToSent = ReceiveBuff.indexOf('\n');
+//             if(noToSent != -1 && noToSent)
+//             {
+//                 emit lineReceived(readBytes(noToSent + 1));
+//             }
+//         }
+
+//        /*
+//         * Writing to port
+//         */
+
+//        num = WriteBuff.size();
+//        if(num)
+//        {
+//            mutex.lock();
+//            charPtr = WriteBuff.data();
+//            auto numSent = s.write(charPtr);
+//            if((numSent != -1) && numSent)
+//            {
+//                WriteBuff.remove(0,numSent);
+//            }
+//            else
+//                qDebug() <<"Error in writing to port";
+//        }
+//    }
     while(!stopThread)
     {
         if(readFlag)

@@ -9,10 +9,15 @@ InputProcessor::InputProcessor(QObject *parent)
 
 InputProcessor::~InputProcessor()
 {
-     if(data)delete data;
+    if(data)delete data;
 }
 
-static int consoleDebugColumn = 0;
+void InputProcessor::Reset()
+{
+    if(data != nullptr)delete data;
+    data = nullptr;
+}
+
 void InputProcessor::GetInput(QByteArray input)
 {
 #if 1
@@ -53,7 +58,7 @@ void InputProcessor::GetInput(QByteArray input)
 bool CommandReturn::acceptData(const QByteArray &input, QByteArray &remain)
 {
     (void)input,(void)remain;
-    return true; //TODO: implement
+    return true;
 }
 
 void CommandReturn::process()
@@ -102,6 +107,18 @@ bool ControllerData::acceptData(const QByteArray &input, QByteArray &remain)
             return true;
         }
         break;
+    case Vertical:
+        // Size: 1 * float
+        while(content.size() < 4 && in != input.end()){
+            content.append(*in++);
+        }
+        if(content.size() == 4){
+            while(in != input.end()){
+                remain.append(*in++);
+            }
+            return true;
+        }
+        break;
     default: qDebug() << "Unknown Command!"; while(1);
     };
     return false;
@@ -122,7 +139,9 @@ void ControllerData::process()
             emit ip->GotControllerYaw(data[2],1);
         break;
         case MotorOut:
-            qDebug() << "Not Handle Motor Output yet";
+            emit ip->GotMotorOutput(data);
+        case Vertical:
+            emit ip->GotVertical(data[0]);
         break;
         default: qDebug() << QString("Invalid controll data : ") + type + QString("!!!") ; while(1);
     }
@@ -148,7 +167,6 @@ bool DebugData::acceptData(const QByteArray &input, QByteArray &remain)
         }else{
             content.append(in.data(),Size-content.size());
             ip->DebugOutput(content);
-            qDebug() << content;
             remain.append(remain.data()+Size-content.size(),remain.size()-Size+content.size());
             return true;
         }
@@ -167,10 +185,10 @@ bool SensorData::acceptData(const QByteArray &input, QByteArray &remain)
         case GyroRaw: case AccelRaw: case GryoAngle: case AccelAngle:
         case ComplementFilter: case GyroKalmanFilter: case AccelLowPassFilter:
         // Size: 3 * float
-        while(content.size() < 16 && in != input.end()){
+        while(content.size() < 12 && in != input.end()){
             content.append(*in++);
         }
-        if(content.size() == 16){
+        if(content.size() == 12){
             while(in != input.end()){
                 remain.append(*in++);
             }
@@ -186,12 +204,41 @@ void SensorData::process()
 {
     const float *data = reinterpret_cast<const float*>(content.data());
     switch(type){
-        case GyroRaw: case AccelRaw: case GryoAngle: case AccelAngle:
-        case ComplementFilter: case GyroKalmanFilter: case AccelLowPassFilter:
-            emit ip->GotControllerRoll(data[0],0);
-            emit ip->GotControllerPitch(data[1],0);
-            emit ip->GotControllerYaw(data[2],0);
+        case GyroRaw:
+            emit ip->GotGyroRawRoll(data[0],0);
+            emit ip->GotGyroRawPitch(data[1],0);
+            emit ip->GotGyroRawYaw(data[2],0);
         break;
-        default: qDebug() << QString("Invalid controll data : ") + type + QString("!!!") ; while(1);
+        case AccelRaw:
+            emit ip->GotAccelRawRoll(data[0],0);
+            emit ip->GotAccelRawPitch(data[1],0);
+            emit ip->GotAccelRawYaw(data[2],0);
+        break;
+        case GryoAngle: // Unused
+            emit ip->GotGryoAngleRoll(data[0],0);
+            emit ip->GotGryoAnglePitch(data[1],0);
+            emit ip->GotGryoAngleYaw(data[2],0);
+        break;
+        case AccelAngle: // Unused
+            emit ip->GotAccelAngleRoll(data[0],0);
+            emit ip->GotAccelAnglePitch(data[1],0);
+            emit ip->GotAccelAngleYaw(data[2],0);
+        break;
+        case ComplementFilter:
+            emit ip->GotComplementFilterRoll(data[0],0);
+            emit ip->GotComplementFilterPitch(data[1],0);
+            emit ip->GotComplementFilterYaw(data[2],0);
+        break;
+        case GyroKalmanFilter: // Not yet
+            emit ip->GotGyroKalmanFilterRoll(data[0],1);
+            emit ip->GotGyroKalmanFilterPitch(data[1],1);
+            emit ip->GotGyroKalmanFilterYaw(data[2],1);
+        break;
+        case AccelLowPassFilter: // Not yet
+            emit ip->GotAccelLowPassFilterRoll(data[0],1);
+            emit ip->GotAccelLowPassFilterPitch(data[1],1);
+            emit ip->GotAccelLowPassFilterYaw(data[2],1);
+        break;
+        default: qDebug() << QString("Invalid sensor data : ") + type + QString("!!!") ; while(1);
     }
 }
