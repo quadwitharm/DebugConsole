@@ -24,7 +24,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="consoleTab">
        <attribute name="title">
@@ -442,7 +442,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QWidget" name="widget" native="true">
+            <widget class="QWidget" name="controll" native="true">
              <property name="autoFillBackground">
               <bool>true</bool>
              </property>
@@ -711,8 +711,7 @@
           </layout>
           <zorder>verticalSlider</zorder>
           <zorder>verticalOutput</zorder>
-          <zorder>plotWidget2</zorder>
-          <zorder>widget</zorder>
+          <zorder>controll</zorder>
          </widget>
         </item>
        </layout>

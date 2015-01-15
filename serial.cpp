@@ -256,6 +256,7 @@ void Serial::setParity(ParityType parity)
 
 bool Serial::applySetting()
 {
+    config.c_cflag |= CRTSCTS;
     if(ttyFd != -1)
     {
         mutex.lock();
@@ -309,11 +310,16 @@ void Serial::run()
 
 //    QSerialPort s(QString::fromStdString(deviceName));
 
-//    s.setBaudRate(9650);
+//    s.setFlowControl(QSerialPort::NoFlowControl);
+//    s.setBaudRate(9600);
 //    s.setDataBits(QSerialPort::Data8);
 //    s.setParity(QSerialPort::NoParity);
 //    s.setStopBits(QSerialPort::OneStop);
-//    s.open(QIODevice::ReadWrite);
+//    if(!s.open(QIODevice::ReadWrite)){
+//        qDebug() << "Can not open!";
+//    }
+
+
 //    while(!stopThread)
 //    {
 //        if(readFlag)
