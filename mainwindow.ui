@@ -16,7 +16,7 @@
   <widget class="QWidget" name="centralWidget">
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QTabWidget" name="SensorTab">
+     <widget class="QTabWidget" name="TabWidget">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -31,299 +31,337 @@
         <string>Console</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="1" column="0">
-         <layout class="QHBoxLayout" name="consoleHLayout">
+        <item row="0" column="0" rowspan="3">
+         <widget class="QGroupBox" name="groupBox">
+          <property name="title">
+           <string>Settings</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="1">
+            <widget class="QComboBox" name="portSelection"/>
+           </item>
+           <item row="2" column="1">
+            <widget class="QComboBox" name="baudRateSelection">
+             <property name="currentIndex">
+              <number>12</number>
+             </property>
+             <item>
+              <property name="text">
+               <string>50</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>75</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>110</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>134</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>150</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>200</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>300</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>600</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>1200</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>1800</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2400</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>4800</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>9600</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>19200</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>38400</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>57600</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>115200</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>230400</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>460800</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>500000</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>576000</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>921600</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>1000000</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>1152000</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>1500000</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2000000</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2500000</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>3000000</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>3500000</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>4000000</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QComboBox" name="dataBitSelection">
+             <property name="currentIndex">
+              <number>3</number>
+             </property>
+             <item>
+              <property name="text">
+               <string>5</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>6</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>7</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>8</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QComboBox" name="paritySelection">
+             <item>
+              <property name="text">
+               <string>none</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>even</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>odd</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Port</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Baud Rate</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Data bits</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_4">
+             <property name="text">
+              <string>Parity</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0" colspan="2">
+            <widget class="QCheckBox" name="stopBitCheck">
+             <property name="text">
+              <string>2 Stop bit</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0" colspan="2">
+            <widget class="QPushButton" name="openButton">
+             <property name="text">
+              <string>Open</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0" colspan="2">
+            <widget class="QPushButton" name="closeButton">
+             <property name="text">
+              <string>Close</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0" colspan="2">
+            <widget class="QPushButton" name="clearButton">
+             <property name="text">
+              <string>Clear</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="Terminal" name="terminal"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QWidget" name="widget_2" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="baseSize">
+           <size>
+            <width>0</width>
+            <height>100</height>
+           </size>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item>
+            <widget class="QPushButton" name="pushButton">
+             <property name="text">
+              <string>Controller off</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_4">
+             <property name="text">
+              <string>Controller on</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_3">
+             <property name="text">
+              <string>Sensor power off</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButton_2">
+             <property name="text">
+              <string>Sensor power on</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
           <item>
-           <widget class="QGroupBox" name="groupBox">
-            <property name="title">
-             <string>Settings</string>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_2">
-             <item row="0" column="1">
-              <widget class="QComboBox" name="portSelection"/>
-             </item>
-             <item row="2" column="1">
-              <widget class="QComboBox" name="baudRateSelection">
-               <property name="currentIndex">
-                <number>16</number>
-               </property>
-               <item>
-                <property name="text">
-                 <string>50</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>75</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>110</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>134</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>150</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>200</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>300</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>600</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>1200</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>1800</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2400</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>4800</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>9600</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>19200</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>38400</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>57600</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>115200</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>230400</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>460800</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>500000</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>576000</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>921600</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>1000000</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>1152000</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>1500000</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2000000</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>2500000</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>3000000</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>3500000</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>4000000</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QComboBox" name="dataBitSelection">
-               <property name="currentIndex">
-                <number>3</number>
-               </property>
-               <item>
-                <property name="text">
-                 <string>5</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>6</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>7</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>8</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <widget class="QComboBox" name="paritySelection">
-               <item>
-                <property name="text">
-                 <string>none</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>even</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>odd</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>Port</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_2">
-               <property name="text">
-                <string>Baud Rate</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>Data bits</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="label_4">
-               <property name="text">
-                <string>Parity</string>
-               </property>
-              </widget>
-             </item>
-             <item row="5" column="0" colspan="2">
-              <widget class="QCheckBox" name="stopBitCheck">
-               <property name="text">
-                <string>2 Stop bit</string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="0" colspan="2">
-              <widget class="QPushButton" name="openButton">
-               <property name="text">
-                <string>Open</string>
-               </property>
-              </widget>
-             </item>
-             <item row="7" column="0" colspan="2">
-              <widget class="QPushButton" name="closeButton">
-               <property name="text">
-                <string>Close</string>
-               </property>
-              </widget>
-             </item>
-             <item row="8" column="0" colspan="2">
-              <widget class="QPushButton" name="clearButton">
-               <property name="text">
-                <string>Clear</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
+           <widget class="QLineEdit" name="lineEdit"/>
           </item>
           <item>
-           <layout class="QGridLayout" name="terminalLayout">
-            <item row="0" column="0">
-             <widget class="Terminal" name="terminal"/>
-            </item>
-            <item row="2" column="0">
-             <layout class="QHBoxLayout" name="lineLayout">
-              <item>
-               <widget class="QLineEdit" name="lineEdit"/>
-              </item>
-              <item>
-               <widget class="QPushButton" name="Send">
-                <property name="text">
-                 <string>Send</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-           </layout>
+           <widget class="QPushButton" name="Send">
+            <property name="text">
+             <string>Send</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -625,10 +663,63 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="sensorTab">
        <attribute name="title">
         <string>Sensor</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="1">
+         <widget class="QWidget" name="FilterAngle" native="true">
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QCustomPlot" name="filterAngleRoll" native="true"/>
+           </item>
+           <item>
+            <widget class="QCustomPlot" name="filterAnglePitch" native="true"/>
+           </item>
+           <item>
+            <widget class="QCustomPlot" name="filterAngleRaw" native="true"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QWidget" name="SensorInput" native="true">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QWidget" name="Gyro" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QCustomPlot" name="GyroRoll" native="true"/>
+              </item>
+              <item>
+               <widget class="QCustomPlot" name="GyroPitch" native="true"/>
+              </item>
+              <item>
+               <widget class="QCustomPlot" name="GyroYaw" native="true"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QWidget" name="Accel" native="true">
+             <layout class="QHBoxLayout" name="horizontalLayout_3">
+              <item>
+               <widget class="QCustomPlot" name="AccelX" native="true"/>
+              </item>
+              <item>
+               <widget class="QCustomPlot" name="AccelY" native="true"/>
+              </item>
+              <item>
+               <widget class="QCustomPlot" name="AccelZ" native="true"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>

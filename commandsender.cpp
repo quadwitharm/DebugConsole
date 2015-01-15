@@ -26,6 +26,7 @@ QByteArray Command::getDataPacket()
     QByteArray ret;
     ret.append( static_cast<char>(this->type) );
     ret.append( this->argument );
+    qDebug().noquote() << "Command send:" << ret.toHex();
     return ret;
 }
 

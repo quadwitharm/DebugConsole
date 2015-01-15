@@ -29,6 +29,8 @@ struct SensorData : public DataType{
     bool acceptData(const QByteArray &input,QByteArray &remain);
     void process();
     virtual ~SensorData(){}
+    enum{ GyroRaw, AccelRaw, GryoAngle , AccelAngle, ComplementFilter, GyroKalmanFilter, AccelLowPassFilter} type;
+    QByteArray content;
 };
 struct ControllerData : public DataType{
     ControllerData(InputProcessor *ip) : DataType(ip) {}

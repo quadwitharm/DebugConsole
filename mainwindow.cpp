@@ -12,8 +12,6 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     serial(this),
-    ip(this),
-    cs(this,&serial),
     line1(),
     line2(),
     line3()
@@ -34,11 +32,38 @@ MainWindow::MainWindow(QWidget *parent) :
     line2.Reset(ui->plotWidget2);
     line3.Reset(ui->plotWidget3);
 
-    connect(&ip,&InputProcessor::GotControllerRoll,&line1,&ControllerPlot::NewData);
-    connect(&ip,&InputProcessor::GotControllerPitch,&line2,&ControllerPlot::NewData);
-    connect(&ip,&InputProcessor::GotControllerYaw,&line3,&ControllerPlot::NewData);
+    ip = new InputProcessor(this);
+    cs = new CommandSender(this,&serial);
 
+    connect(ip,&InputProcessor::DebugOutput,ui->terminal,&Terminal::DebugOutput);
+
+    connect(ip,&InputProcessor::GotControllerRoll,&line1,&ControllerPlot::NewData);
+    connect(ip,&InputProcessor::GotControllerPitch,&line2,&ControllerPlot::NewData);
+    connect(ip,&InputProcessor::GotControllerYaw,&line3,&ControllerPlot::NewData);
+
+    connect(ui->roll_kp,&QSlider::sliderMoved,this,&MainWindow::sendRollPIDParam);
+    connect(ui->roll_ki,&QSlider::sliderMoved,this,&MainWindow::sendRollPIDParam);
     connect(ui->roll_kd,&QSlider::sliderMoved,this,&MainWindow::sendRollPIDParam);
+
+    connect(ui->pitch_kp_3,&QSlider::sliderMoved,this,&MainWindow::sendPitchPIDParam);
+    connect(ui->pitch_ki_3,&QSlider::sliderMoved,this,&MainWindow::sendPitchPIDParam);
+    connect(ui->pitch_kd_3,&QSlider::sliderMoved,this,&MainWindow::sendPitchPIDParam);
+
+    connect(ui->yaw_kp_2,&QSlider::sliderMoved,this,&MainWindow::sendYawPIDParam);
+    connect(ui->yaw_ki_2,&QSlider::sliderMoved,this,&MainWindow::sendYawPIDParam);
+    connect(ui->yaw_kd_2,&QSlider::sliderMoved,this,&MainWindow::sendYawPIDParam);
+
+    connect(ui->roll_rate_kp,&QSlider::sliderMoved,this,&MainWindow::sendRollRatePIDParam);
+    connect(ui->roll_rate_ki,&QSlider::sliderMoved,this,&MainWindow::sendRollRatePIDParam);
+    connect(ui->roll_rate_kd,&QSlider::sliderMoved,this,&MainWindow::sendRollRatePIDParam);
+
+    connect(ui->pitch_rate_kp_3,&QSlider::sliderMoved,this,&MainWindow::sendPitchRatePIDParam);
+    connect(ui->pitch_rate_ki_3,&QSlider::sliderMoved,this,&MainWindow::sendPitchRatePIDParam);
+    connect(ui->pitch_rate_kd_3,&QSlider::sliderMoved,this,&MainWindow::sendPitchRatePIDParam);
+
+    connect(ui->yaw_rate_kp_2,&QSlider::sliderMoved,this,&MainWindow::sendYawRatePIDParam);
+    connect(ui->yaw_rate_ki_2,&QSlider::sliderMoved,this,&MainWindow::sendYawRatePIDParam);
+    connect(ui->yaw_rate_kd_2,&QSlider::sliderMoved,this,&MainWindow::sendYawRatePIDParam);
 }
 
 MainWindow::~MainWindow()
@@ -100,14 +125,15 @@ void MainWindow::on_openButton_pressed()
 
     ui->clearButton->setEnabled(true);
     ui->closeButton->setEnabled(true);
-    connect(&serial,&Serial::signalReceied,&ip,&InputProcessor::GetInput);
+
+    connect(&serial,&Serial::signalReceied,ip,&InputProcessor::GetInput);
     serial.start(QThread::LowestPriority);
     serial.startThread();
 }
 
 void MainWindow::on_closeButton_pressed()
 {
-    disconnect(&serial,&Serial::signalReceied,&ip,&InputProcessor::GetInput);
+    disconnect(&serial,&Serial::signalReceied,ip,&InputProcessor::GetInput);
     serial.closeDevice();
 
     ui->portSelection->setEnabled(true);
@@ -128,7 +154,7 @@ void MainWindow::on_clearButton_pressed()
 
 void MainWindow::on_Send_pressed()
 {
-    cs.SendCommand(DebugCommand(ui->lineEdit->text()));
+    cs->SendCommand(DebugCommand(ui->lineEdit->text()));
 }
 // Roll
 void MainWindow::on_SetPoint_valueChanged(int) { sendSetPoints(); }
@@ -140,7 +166,7 @@ void MainWindow::on_SetPoint_2_valueChanged(int) { sendSetPoints(); }
 void MainWindow::sendRollPIDParam(int)
 {
     float data[3] = {(float)ui->roll_kp->value(), (float)ui->roll_ki->value(), (float)ui->roll_kd->value()};
-    cs.SendCommand(
+    cs->SendCommand(
         Command(0x04,
             QByteArray().append((char)0x00).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
         )
@@ -150,7 +176,7 @@ void MainWindow::sendRollPIDParam(int)
 void MainWindow::sendPitchPIDParam(int)
 {
     float data[3] = {(float)ui->pitch_kp_3->value(), (float)ui->pitch_ki_3->value(), (float)ui->pitch_kd_3->value()};
-    cs.SendCommand(
+    cs->SendCommand(
         Command(0x04,
             QByteArray().append((char)0x01).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
         )
@@ -160,7 +186,7 @@ void MainWindow::sendPitchPIDParam(int)
 void MainWindow::sendYawPIDParam(int)
 {
     float data[3] = {(float)ui->yaw_kp_2->value(), (float)ui->yaw_ki_2->value(), (float)ui->yaw_kd_2->value()};
-    cs.SendCommand(
+    cs->SendCommand(
         Command(0x04,
             QByteArray().append((char)0x02).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
         )
@@ -170,7 +196,7 @@ void MainWindow::sendYawPIDParam(int)
 void MainWindow::sendRollRatePIDParam(int)
 {
     float data[3] = {(float)ui->roll_rate_kp->value(), (float)ui->roll_rate_ki->value(), (float)ui->roll_rate_kd->value()};
-    cs.SendCommand(
+    cs->SendCommand(
         Command(0x04,
             QByteArray().append((char)0x03).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
         )
@@ -180,7 +206,7 @@ void MainWindow::sendRollRatePIDParam(int)
 void MainWindow::sendPitchRatePIDParam(int)
 {
     float data[3] = {(float)ui->pitch_rate_kp_3->value(), (float)ui->pitch_rate_ki_3->value(), (float)ui->pitch_rate_kd_3->value()};
-    cs.SendCommand(
+    cs->SendCommand(
         Command(0x04,
             QByteArray().append((char)0x04).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
         )
@@ -190,7 +216,7 @@ void MainWindow::sendPitchRatePIDParam(int)
 void MainWindow::sendYawRatePIDParam(int)
 {
     float data[3] = {(float)ui->yaw_rate_kp_2->value(), (float)ui->yaw_rate_ki_2->value(), (float)ui->yaw_rate_kd_2->value()};
-    cs.SendCommand(
+    cs->SendCommand(
         Command(0x04,
             QByteArray().append((char)0x05).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
         )
@@ -200,9 +226,33 @@ void MainWindow::sendYawRatePIDParam(int)
 void MainWindow::sendSetPoints()
 {
     float data[3] = {(float)ui->SetPoint->value(), (float)ui->SetPoint_3->value(), (float)ui->SetPoint_2->value()};
-    cs.SendCommand(
+    cs->SendCommand(
         Command(0x05,
             QByteArray().append((char)0x00).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
         )
     );
+}
+
+void MainWindow::on_pushButton_pressed()
+{
+// Controller off
+    cs->SendCommand( Command(0x00, QByteArray() ) );
+}
+
+void MainWindow::on_pushButton_4_pressed()
+{
+// Controller on
+    cs->SendCommand( Command(0x01, QByteArray() ) );
+}
+
+void MainWindow::on_pushButton_3_pressed()
+{
+// Sensor power off
+    cs->SendCommand( Command(0x02, QByteArray() ) );
+}
+
+void MainWindow::on_pushButton_2_pressed()
+{
+// Sensor power on
+    cs->SendCommand( Command(0x03, QByteArray() ) );
 }

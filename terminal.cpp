@@ -16,7 +16,7 @@ void Terminal::CommandOutput(QByteArray)
 
 }
 
-void Terminal::DebugOutput(QByteArray)
+void Terminal::DebugOutput(QByteArray text)
 {
-
+    this->append(text);
 }

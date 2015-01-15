@@ -12,8 +12,12 @@ InputProcessor::~InputProcessor()
      if(data)delete data;
 }
 
+static int consoleDebugColumn = 0;
 void InputProcessor::GetInput(QByteArray input)
 {
+#if 1
+    qDebug().noquote() << "0x" << input.toHex() << " : " << qPrintable(input);
+#endif
     if(data == nullptr){ // New Packet of data
         switch (static_cast<DataOrientation>((char)input[0])) {
         case COMMAND_RETURN:
@@ -49,13 +53,11 @@ void InputProcessor::GetInput(QByteArray input)
 bool CommandReturn::acceptData(const QByteArray &input, QByteArray &remain)
 {
     (void)input,(void)remain;
-    return false; //TODO: implement
+    return true; //TODO: implement
 }
 
 void CommandReturn::process()
-{
-
-}
+{}
 
 bool ControllerData::acceptData(const QByteArray &input, QByteArray &remain)
 {
@@ -100,7 +102,7 @@ bool ControllerData::acceptData(const QByteArray &input, QByteArray &remain)
             return true;
         }
         break;
-    default: while(1);
+    default: qDebug() << "Unknown Command!"; while(1);
     };
     return false;
 }
@@ -157,11 +159,39 @@ bool DebugData::acceptData(const QByteArray &input, QByteArray &remain)
 
 bool SensorData::acceptData(const QByteArray &input, QByteArray &remain)
 {
-    (void)input,(void)remain;
-    return false; //TODO: implement
+    auto in = input.begin();
+    if(type == None){
+        type = static_cast<decltype(type)>((char)*in++);
+    }
+    switch (type) {
+        case GyroRaw: case AccelRaw: case GryoAngle: case AccelAngle:
+        case ComplementFilter: case GyroKalmanFilter: case AccelLowPassFilter:
+        // Size: 3 * float
+        while(content.size() < 16 && in != input.end()){
+            content.append(*in++);
+        }
+        if(content.size() == 16){
+            while(in != input.end()){
+                remain.append(*in++);
+            }
+            return true;
+        }
+        break;
+    default: qDebug() << "Unknown Command!"; while(1);
+    };
+    return false;
 }
 
 void SensorData::process()
 {
-
+    const float *data = reinterpret_cast<const float*>(content.data());
+    switch(type){
+        case GyroRaw: case AccelRaw: case GryoAngle: case AccelAngle:
+        case ComplementFilter: case GyroKalmanFilter: case AccelLowPassFilter:
+            emit ip->GotControllerRoll(data[0],0);
+            emit ip->GotControllerPitch(data[1],0);
+            emit ip->GotControllerYaw(data[2],0);
+        break;
+        default: qDebug() << QString("Invalid controll data : ") + type + QString("!!!") ; while(1);
+    }
 }

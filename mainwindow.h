@@ -42,12 +42,20 @@ private slots:
     void sendRollRatePIDParam(int);
     void sendPitchRatePIDParam(int);
     void sendYawRatePIDParam(int);
+    void on_pushButton_pressed();
+
+    void on_pushButton_4_pressed();
+
+    void on_pushButton_3_pressed();
+
+    void on_pushButton_2_pressed();
+
 private:
     void sendSetPoints();
     Ui::MainWindow *ui;
     Serial serial;
-    InputProcessor ip;
-    CommandSender cs;
+    InputProcessor *ip;
+    CommandSender *cs;
 
     ControllerPlot line1, line2, line3;
 };
