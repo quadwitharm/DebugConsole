@@ -33,7 +33,7 @@ void InputProcessor::GetInput(QByteArray input)
 void InputProcessor::ProcessPacket(QByteArray input)
 {
 #if 1
-    qDebug().noquote() << "0x" << input.toHex() << " : " << qPrintable(input);
+    qDebug().noquote() << "0x" << input.toHex();
 #endif
     if(data == nullptr){ // New Packet of data
         switch (static_cast<DataOrientation>((char)input[0])) {
@@ -58,9 +58,13 @@ void InputProcessor::ProcessPacket(QByteArray input)
     for(int i = 0;i < input.size() - 1;++i){
         checksum += (char)input[i];
     }
-    if( (char)input[input.size()-1] != checksum ){
-        qDebug() << "Wrong checksum, discarded.";
+    if( input.size() && (char)input[input.size()-1] != checksum ){
+        qDebug().noquote() << "Wrong checksum: " << (int)(char)input[input.size()-1] << " - " << (int)checksum;
+        return;
+    }else if(input.size() == 0){
+        return;
     }
+    input.resize(input.size()-1);
     QByteArray remain;
     if(data->acceptData(input, remain)){
         data->process();
@@ -81,7 +85,7 @@ void CommandReturn::process()
 
 bool ControllerData::acceptData(const QByteArray &input, QByteArray &remain)
 {
-    auto in = input.begin();
+    auto in = input.begin() + 1;
     if(type == None){
         type = static_cast<decltype(type)>((char)*in++);
     }
@@ -150,37 +154,15 @@ void ControllerData::process()
     }
 }
 
-bool DebugData::acceptData(const QByteArray &input, QByteArray &remain)
+bool DebugData::acceptData(const QByteArray &input, QByteArray &)
 {
-    QByteArray in = input;
-    if(!a && !in.isEmpty()){
-        a = true;
-        size[0] = in.data()[0];
-        in = QByteArray(in.data()+1,in.size()-1);
-    }
-    if(!b && !in.isEmpty()){
-        b = true;
-        size[1] = in.data()[0];
-        in = QByteArray(in.data()+1,in.size()-1);
-    }
-    if(a && b){
-        u_int16_t Size = (size[1] << 8) + size[0];
-        if(content.size() + in.size() < Size){
-            content.append(in);
-        }else{
-            content.append(in.data(),Size-content.size());
-            ip->DebugOutput(content);
-            remain.append(remain.data()+Size-content.size(),remain.size()-Size+content.size());
-            return true;
-        }
-        return false;
-    }
-    return false;
+     ip->DebugOutput(QByteArray(input.data()+1,input.size()-1));
+     return true;
 }
 
 bool SensorData::acceptData(const QByteArray &input, QByteArray &remain)
 {
-    auto in = input.begin();
+    auto in = input.begin() + 1;
     if(type == None){
         type = static_cast<decltype(type)>((char)*in++);
     }
