@@ -12,9 +12,9 @@ CommandSender::~CommandSender()
 void CommandSender::SendCommand(Command cmd)
 {
     auto packet = cmd.getDataPacket();
+    qDebug() << "Command send:" << packet.toHex();
     for(int i = 0;i < packet.size();++i){
         serial->writeToPort(packet.data()+i,1);
-        QThread::msleep(90);
     }
 }
 
@@ -28,11 +28,15 @@ Command::~Command()
 
 QByteArray Command::getDataPacket()
 {
-    QByteArray ret;
-    ret.append( static_cast<char>(this->type) );
-    ret.append( this->argument );
-    qDebug() << "Command send:" << ret.toHex();
-    return ret;
+    QByteArray rawcmd;
+    rawcmd.append( static_cast<char>(this->type) );
+    rawcmd.append( this->argument );
+    char checksum = 0;
+    for(int i = 0;i < rawcmd.size();++i){
+        checksum += rawcmd[i] ;
+    }
+    rawcmd.append(checksum);
+    return rawcmd.toBase64().append((char)0xFF);
 }
 
 DebugCommand::DebugCommand(QString str)

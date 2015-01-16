@@ -20,6 +20,18 @@ void InputProcessor::Reset()
 
 void InputProcessor::GetInput(QByteArray input)
 {
+    for(int i = 0;i < input.size();++i){
+        if(input[i] != (char)0xFF){
+            rawbuf.append(input[i]);
+        }else{
+            ProcessPacket(QByteArray::fromBase64(rawbuf));
+            rawbuf.clear();
+        }
+    }
+}
+
+void InputProcessor::ProcessPacket(QByteArray input)
+{
 #if 1
     qDebug().noquote() << "0x" << input.toHex() << " : " << qPrintable(input);
 #endif
@@ -38,19 +50,22 @@ void InputProcessor::GetInput(QByteArray input)
             data = new DebugData(this);
             break;
         default:
-            qDebug() << "Magic number error!!";
-            /* Something wrong here */
-            break;
+            qDebug() << "Wrong packet data, discarded.";
+            return;
         }
-        input = QByteArray(input.data()+1,input.size()-1);
     }
-    if(input.isEmpty())return;
+    char checksum = 0;
+    for(int i = 0;i < input.size() - 1;++i){
+        checksum += (char)input[i];
+    }
+    if( (char)input[input.size()-1] != checksum ){
+        qDebug() << "Wrong checksum, discarded.";
+    }
     QByteArray remain;
     if(data->acceptData(input, remain)){
         data->process();
-        delete data; data = nullptr;
-        if(!remain.isEmpty())
-            GetInput(remain);
+        delete data;
+        data = nullptr;
     }
 }
 
@@ -83,19 +98,7 @@ bool ControllerData::acceptData(const QByteArray &input, QByteArray &remain)
             return true;
         }
         break;
-    case RatePIDOut:
-        // Size: 3 * float
-        while(content.size() < 12 && in != input.end()){
-            content.append(*in++);
-        }
-        if(content.size() == 12){
-            while(in != input.end()){
-                remain.append(*in++);
-            }
-            return true;
-        }
-        break;
-    case StabPIDOut:
+    case RatePIDOut: case StabPIDOut:
         // Size: 3 * float
         while(content.size() < 12 && in != input.end()){
             content.append(*in++);
@@ -119,7 +122,7 @@ bool ControllerData::acceptData(const QByteArray &input, QByteArray &remain)
             return true;
         }
         break;
-    default: qDebug() << "Unknown Command!"; while(1);
+     default: qDebug() << "Something Wrong in ControllerData, discarded.";
     };
     return false;
 }
@@ -143,7 +146,7 @@ void ControllerData::process()
         case Vertical:
             emit ip->GotVertical(data[0]);
         break;
-        default: qDebug() << QString("Invalid controll data : ") + type + QString("!!!") ; while(1);
+        default: qDebug() << QString("Something wrong in ControllerData, discarded.");
     }
 }
 
@@ -195,7 +198,7 @@ bool SensorData::acceptData(const QByteArray &input, QByteArray &remain)
             return true;
         }
         break;
-    default: qDebug() << "Unknown Command!"; while(1);
+    default: qDebug() << "Something Wrong in SenserData, discarded.";
     };
     return false;
 }
@@ -239,6 +242,6 @@ void SensorData::process()
             emit ip->GotAccelLowPassFilterPitch(data[1],1);
             emit ip->GotAccelLowPassFilterYaw(data[2],1);
         break;
-        default: qDebug() << QString("Invalid sensor data : ") + type + QString("!!!") ; while(1);
+        default: qDebug() << "Something Wrong in SenserData, discarded.";
     }
 }

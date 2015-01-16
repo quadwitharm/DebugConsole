@@ -62,6 +62,7 @@ public:
 public slots:
     void Reset();
     void GetInput(QByteArray);
+    void ProcessPacket(QByteArray);
 signals:
     // Controller
     void GotControllerRoll(double value, int line);
@@ -105,6 +106,7 @@ signals:
 
 private:
     DataType *data;
+    QByteArray rawbuf;
 };
 
 #endif // INPUTPROCESSOR_H
