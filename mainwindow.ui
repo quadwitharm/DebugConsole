@@ -250,10 +250,10 @@
              </property>
             </widget>
            </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_2">
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_4">
              <property name="text">
-              <string>Baud Rate</string>
+              <string>Parity</string>
              </property>
             </widget>
            </item>
@@ -264,10 +264,10 @@
              </property>
             </widget>
            </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_4">
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_2">
              <property name="text">
-              <string>Parity</string>
+              <string>Baud Rate</string>
              </property>
             </widget>
            </item>
@@ -468,8 +468,28 @@
              <layout class="QVBoxLayout" name="verticalLayout">
               <item>
                <widget class="QWidget" name="Roll" native="true">
-                <layout class="QHBoxLayout" name="horizontalLayout_5">
-                 <item>
+                <layout class="QGridLayout" name="gridLayout_5">
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="RollStabOutputRange"/>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="RollRateOutputRange"/>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLabel" name="label_8">
+                   <property name="text">
+                    <string>Roll stab range</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLabel" name="label_9">
+                   <property name="text">
+                    <string>Roll rate range</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="3" rowspan="4">
                   <widget class="QCustomPlot" name="plotWidget1" native="true">
                    <property name="minimumSize">
                     <size>
@@ -479,7 +499,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item>
+                 <item row="0" column="4" rowspan="4">
                   <widget class="QGroupBox" name="">
                    <property name="maximumSize">
                     <size>
@@ -614,18 +634,28 @@
               </item>
               <item>
                <widget class="QWidget" name="Pitch" native="true">
-                <layout class="QHBoxLayout" name="horizontalLayout_7">
-                 <item>
-                  <widget class="QCustomPlot" name="plotWidget2" native="true">
-                   <property name="minimumSize">
-                    <size>
-                     <width>700</width>
-                     <height>0</height>
-                    </size>
+                <layout class="QGridLayout" name="gridLayout_9">
+                 <item row="1" column="0">
+                  <widget class="QLineEdit" name="PitchStabOutputRange"/>
+                 </item>
+                 <item row="3" column="0">
+                  <widget class="QLineEdit" name="PitchRateOutputRange"/>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_10">
+                   <property name="text">
+                    <string>Pitch stab range</string>
                    </property>
                   </widget>
                  </item>
-                 <item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_11">
+                   <property name="text">
+                    <string>Pitch rate range</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="3" rowspan="4">
                   <widget class="QGroupBox" name="">
                    <property name="maximumSize">
                     <size>
@@ -755,13 +785,43 @@
                    </layout>
                   </widget>
                  </item>
+                 <item row="0" column="2" rowspan="4">
+                  <widget class="QCustomPlot" name="plotWidget2" native="true">
+                   <property name="minimumSize">
+                    <size>
+                     <width>700</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </widget>
               </item>
               <item>
                <widget class="QWidget" name="Yaw" native="true">
-                <layout class="QHBoxLayout" name="horizontalLayout_6">
-                 <item>
+                <layout class="QGridLayout" name="gridLayout_10">
+                 <item row="3" column="0">
+                  <widget class="QLineEdit" name="YawRateOutputRange"/>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLineEdit" name="YawStabOutputRange"/>
+                 </item>
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="label_12">
+                   <property name="text">
+                    <string>Yaw stab range</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="0">
+                  <widget class="QLabel" name="label_13">
+                   <property name="text">
+                    <string>Yaw rate range</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="2" rowspan="4">
                   <widget class="QCustomPlot" name="plotWidget3" native="true">
                    <property name="minimumSize">
                     <size>
@@ -771,7 +831,7 @@
                    </property>
                   </widget>
                  </item>
-                 <item>
+                 <item row="0" column="3" rowspan="4">
                   <widget class="QGroupBox" name="">
                    <property name="maximumSize">
                     <size>
@@ -927,26 +987,14 @@
         <string>Sensor</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
-        <item row="0" column="1">
-         <widget class="QWidget" name="FilterAngle" native="true">
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <item>
-            <widget class="QCustomPlot" name="filterAngleRoll" native="true"/>
-           </item>
-           <item>
-            <widget class="QCustomPlot" name="filterAnglePitch" native="true"/>
-           </item>
-           <item>
-            <widget class="QCustomPlot" name="filterAngleYaw" native="true"/>
-           </item>
-          </layout>
-         </widget>
-        </item>
         <item row="0" column="0">
          <widget class="QWidget" name="SensorInput" native="true">
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QWidget" name="Gyro" native="true">
+            <widget class="QGroupBox" name="Gyro">
+             <property name="title">
+              <string>Gyroscope</string>
+             </property>
              <layout class="QHBoxLayout" name="horizontalLayout_2">
               <item>
                <widget class="QCustomPlot" name="GyroRoll" native="true"/>
@@ -961,7 +1009,10 @@
             </widget>
            </item>
            <item>
-            <widget class="QWidget" name="Accel" native="true">
+            <widget class="QGroupBox" name="Accel">
+             <property name="title">
+              <string>Accelerator</string>
+             </property>
              <layout class="QHBoxLayout" name="horizontalLayout_3">
               <item>
                <widget class="QCustomPlot" name="AccelX" native="true"/>
@@ -974,6 +1025,24 @@
               </item>
              </layout>
             </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QGroupBox" name="FilterAngle">
+          <property name="title">
+           <string>Attitude</string>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <widget class="QCustomPlot" name="filterAngleRoll" native="true"/>
+           </item>
+           <item>
+            <widget class="QCustomPlot" name="filterAnglePitch" native="true"/>
+           </item>
+           <item>
+            <widget class="QCustomPlot" name="filterAngleYaw" native="true"/>
            </item>
           </layout>
          </widget>

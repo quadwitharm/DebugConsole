@@ -2,6 +2,8 @@
 #include "serial.h"
 #include <iostream>
 
+#define COMMAND_SEND_INTERNAL 0 //80
+
 CommandSender::CommandSender(QObject *parent, Serial *serial)
  : QObject(parent), serial(serial)
 { }
@@ -15,7 +17,7 @@ void CommandSender::SendCommand(Command cmd)
     qDebug() << "Command send:" << packet.toHex();
     for(int i = 0;i < packet.size();++i){
         serial->writeToPort(packet.data()+i,1);
-        QThread::msleep(80);
+        QThread::msleep(COMMAND_SEND_INTERNAL);
     }
 }
 
