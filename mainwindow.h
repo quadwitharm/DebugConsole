@@ -5,7 +5,7 @@
 #include "serial.h"
 #include "inputprocessor.h"
 #include "commandsender.h"
-#include "controllerplot.h"
+#include "plothelper.h"
 
 namespace Ui {
 class MainWindow;

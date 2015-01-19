@@ -1,4 +1,4 @@
-#include "controllerplot.h"
+#include "plothelper.h"
 #include "inputprocessor.h"
 
 PlotHelper::PlotHelper(int enableLine, QObject *parent)
@@ -6,8 +6,7 @@ PlotHelper::PlotHelper(int enableLine, QObject *parent)
     lineReady(enableLine),
     enableLine(enableLine)
 {
-
-// TODO: properly handle enableLine
+    // TODO: properly handle enableLine
 }
 
 void PlotHelper::setTimeRange(double timeRange)
@@ -28,7 +27,6 @@ void PlotHelper::setValueRange(double valueRange)
     this->qcp->yAxis->setRange(0 - valueRange, 0 + valueRange);
     qcp->replot();
 }
-
 
 PlotHelper::~PlotHelper()
 {
@@ -73,6 +71,7 @@ void PlotHelper::Reset(QCustomPlot *qcp)
         this->qcp->addGraph();
         this->qcp->graph(i)->addData(rightPoint - timeRange, 0.0);
         this->qcp->graph(i)->addData(rightPoint, 0.0);
+        this->qcp->graph(i)->rescaleAxes(true);
     }
     this->qcp->xAxis->setLabel("Time");
     this->qcp->yAxis->setLabel("Degree");

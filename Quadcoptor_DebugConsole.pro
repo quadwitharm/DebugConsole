@@ -20,7 +20,7 @@ SOURCES += main.cpp\
     terminal.cpp \
     inputprocessor.cpp \
     commandsender.cpp \
-    controllerplot.cpp
+    plothelper.cpp
 
 HEADERS  += mainwindow.h \
 	qcustomplot.h \
@@ -29,7 +29,7 @@ HEADERS  += mainwindow.h \
     inputprocessor.h \
     commandsender.h \
     Controller \
-    controllerplot.h
+    plothelper.h
 
 FORMS    += \
     mainwindow.ui

@@ -450,7 +450,7 @@
               <number>1000</number>
              </property>
              <property name="value">
-              <number>500</number>
+              <number>0</number>
              </property>
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -470,22 +470,48 @@
                <widget class="QWidget" name="Roll" native="true">
                 <layout class="QGridLayout" name="gridLayout_5">
                  <item row="1" column="1">
-                  <widget class="QLineEdit" name="RollStabOutputRange"/>
+                  <widget class="QLineEdit" name="RollStabOutputRange">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
                  </item>
                  <item row="3" column="1">
-                  <widget class="QLineEdit" name="RollRateOutputRange"/>
+                  <widget class="QLineEdit" name="RollRateOutputRange">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
                  </item>
                  <item row="0" column="1">
                   <widget class="QLabel" name="label_8">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="text">
-                    <string>Roll stab range</string>
+                    <string>Roll stab scale</string>
                    </property>
                   </widget>
                  </item>
                  <item row="2" column="1">
                   <widget class="QLabel" name="label_9">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="text">
-                    <string>Roll rate range</string>
+                    <string>Roll rate scale</string>
                    </property>
                   </widget>
                  </item>
@@ -636,22 +662,48 @@
                <widget class="QWidget" name="Pitch" native="true">
                 <layout class="QGridLayout" name="gridLayout_9">
                  <item row="1" column="0">
-                  <widget class="QLineEdit" name="PitchStabOutputRange"/>
+                  <widget class="QLineEdit" name="PitchStabOutputRange">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
                  </item>
                  <item row="3" column="0">
-                  <widget class="QLineEdit" name="PitchRateOutputRange"/>
+                  <widget class="QLineEdit" name="PitchRateOutputRange">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
                  </item>
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_10">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="text">
-                    <string>Pitch stab range</string>
+                    <string>Pitch stab scale</string>
                    </property>
                   </widget>
                  </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_11">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="text">
-                    <string>Pitch rate range</string>
+                    <string>Pitch rate scale</string>
                    </property>
                   </widget>
                  </item>
@@ -802,22 +854,48 @@
                <widget class="QWidget" name="Yaw" native="true">
                 <layout class="QGridLayout" name="gridLayout_10">
                  <item row="3" column="0">
-                  <widget class="QLineEdit" name="YawRateOutputRange"/>
+                  <widget class="QLineEdit" name="YawRateOutputRange">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="0">
-                  <widget class="QLineEdit" name="YawStabOutputRange"/>
+                  <widget class="QLineEdit" name="YawStabOutputRange">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
+                  </widget>
                  </item>
                  <item row="0" column="0">
                   <widget class="QLabel" name="label_12">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="text">
-                    <string>Yaw stab range</string>
+                    <string>Yaw stab scale</string>
                    </property>
                   </widget>
                  </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_13">
+                   <property name="maximumSize">
+                    <size>
+                     <width>100</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="text">
-                    <string>Yaw rate range</string>
+                    <string>Yaw rate scale</string>
                    </property>
                   </widget>
                  </item>
