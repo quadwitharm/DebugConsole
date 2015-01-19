@@ -32,34 +32,33 @@ void InputProcessor::GetInput(QByteArray input)
 
 void InputProcessor::ProcessPacket(QByteArray input)
 {
-#if 1
+#if 0
     qDebug().noquote() << "0x" << input.toHex();
 #endif
-    if(data == nullptr){ // New Packet of data
-        switch (static_cast<DataOrientation>((char)input[0])) {
-        case COMMAND_RETURN:
-            data = new CommandReturn(this);
-            break;
-        case SENSOR_DATA:
-            data = new SensorData(this);
-            break;
-        case FLIGHT_DATA:
-            data = new ControllerData(this);
-            break;
-        case DEBUG_DATA:
-            data = new DebugData(this);
-            break;
-        default:
-            qDebug() << "Wrong packet data, discarded.";
-            return;
-        }
+    switch (static_cast<DataOrientation>((char)input[0])) {
+    case COMMAND_RETURN:
+        data = new CommandReturn(this);
+        break;
+    case SENSOR_DATA:
+        data = new SensorData(this);
+        break;
+    case FLIGHT_DATA:
+        data = new ControllerData(this);
+        break;
+    case DEBUG_DATA:
+        data = new DebugData(this);
+        break;
+    default:
+        qDebug() << "Wrong packet data, discarded." << (int)(char)input[0];
+        return;
     }
+
     char checksum = 0;
     for(int i = 0;i < input.size() - 1;++i){
         checksum += (char)input[i];
     }
     if( input.size() && (char)input[input.size()-1] != checksum ){
-        qDebug().noquote() << "Wrong checksum: " << (int)(char)input[input.size()-1] << " - " << (int)checksum;
+        //qDebug().noquote() << "Wrong checksum: " << (int)(char)input[input.size()-1] << " - " << (int)checksum;
         return;
     }else if(input.size() == 0){
         return;
@@ -126,9 +125,9 @@ bool ControllerData::acceptData(const QByteArray &input, QByteArray &remain)
             return true;
         }
         break;
-     default: qDebug() << "Something Wrong in ControllerData, discarded.";
+     default: qDebug() << "Something Wrong in ControllerData : " << input;
     };
-    return false;
+    return true;
 }
 
 void ControllerData::process()
@@ -136,21 +135,21 @@ void ControllerData::process()
     const float *data = reinterpret_cast<const float*>(content.data());
     switch(type){
         case RatePIDOut:
-            emit ip->GotControllerRoll(data[0],0);
-            emit ip->GotControllerPitch(data[1],0);
-            emit ip->GotControllerYaw(data[2],0);
+            emit ip->GotControllerRoll(data[0]*3000,2);
+            emit ip->GotControllerPitch(data[1]*3000,2);
+            emit ip->GotControllerYaw(data[2]*3000,2);
         break;
         case StabPIDOut:
-            emit ip->GotControllerRoll(data[0],1);
-            emit ip->GotControllerPitch(data[1],1);
-            emit ip->GotControllerYaw(data[2],1);
+            emit ip->GotControllerRoll(data[0]*3000,1);
+            emit ip->GotControllerPitch(data[1]*3000,1);
+            emit ip->GotControllerYaw(data[2]*3000,1);
         break;
         case MotorOut:
             emit ip->GotMotorOutput(data);
         case Vertical:
             emit ip->GotVertical(data[0]);
         break;
-        default: qDebug() << QString("Something wrong in ControllerData, discarded.");
+        default:;
     }
 }
 
@@ -180,9 +179,9 @@ bool SensorData::acceptData(const QByteArray &input, QByteArray &remain)
             return true;
         }
         break;
-    default: qDebug() << "Something Wrong in SenserData, discarded.";
+    default: qDebug() << "Something Wrong in SenserData: " << input;
     };
-    return false;
+    return true;
 }
 
 void SensorData::process()
@@ -224,6 +223,6 @@ void SensorData::process()
             emit ip->GotAccelLowPassFilterPitch(data[1],1);
             emit ip->GotAccelLowPassFilterYaw(data[2],1);
         break;
-        default: qDebug() << "Something Wrong in SenserData, discarded.";
+        default:;
     }
 }

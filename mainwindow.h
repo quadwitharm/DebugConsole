@@ -19,6 +19,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void verticalSlider();
+    void sendmotor();
 public slots:
     void refreshDevices();
 
@@ -37,6 +38,15 @@ private slots:
     void sendRollRatePIDParam();
     void sendPitchRatePIDParam();
     void sendYawRatePIDParam();
+
+    void sRollPIDParam();
+    void sPitchPIDParam();
+    void sYawPIDParam();
+    void sRollRatePIDParam();
+    void sPitchRatePIDParam();
+    void sYawRatePIDParam();
+
+
     void on_pushButton_pressed();
 
     void on_pushButton_4_pressed();
@@ -45,11 +55,15 @@ private slots:
 
     void on_pushButton_2_pressed();
 
-    void on_SetPoint_sliderReleased();
 
-    void on_SetPoint_3_sliderReleased();
+    void on_lineEdit_2_returnPressed();
 
-    void on_SetPoint_2_sliderReleased();
+
+    void on_lineEdit_5_returnPressed();
+
+    void on_lineEdit_4_returnPressed();
+
+    void on_lineEdit_3_returnPressed();
 
 private:
     void sendSetPoints();
@@ -57,6 +71,7 @@ private:
     Serial serial;
     InputProcessor *ip;
     CommandSender *cs;
+    QTimer *timer;
 
     PlotHelper controllerLine1, controllerLine2, controllerLine3;
     PlotHelper grawLine1, grawLine2, grawLine3;

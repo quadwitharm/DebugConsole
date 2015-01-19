@@ -24,7 +24,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="consoleTab">
        <attribute name="title">
@@ -376,6 +376,16 @@
          <widget class="QWidget" name="widget_4" native="true">
           <layout class="QHBoxLayout" name="horizontalLayout_12">
            <item>
+            <widget class="QLineEdit" name="lineEdit_2">
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>16777215</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QLabel" name="motor1">
              <property name="text">
               <string>TextLabel</string>
@@ -515,26 +525,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QDial" name="SetPoint">
-                     <property name="statusTip">
-                      <string/>
-                     </property>
-                     <property name="minimum">
-                      <number>-180</number>
-                     </property>
-                     <property name="maximum">
-                      <number>180</number>
-                     </property>
-                     <property name="pageStep">
-                      <number>0</number>
-                     </property>
-                     <property name="invertedAppearance">
-                      <bool>false</bool>
-                     </property>
-                     <property name="invertedControls">
-                      <bool>false</bool>
-                     </property>
-                    </widget>
+                    <widget class="QLineEdit" name="lineEdit_3"/>
                    </item>
                   </layout>
                  </item>
@@ -606,17 +597,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QDial" name="SetPoint_3">
-                     <property name="minimum">
-                      <number>-180</number>
-                     </property>
-                     <property name="maximum">
-                      <number>180</number>
-                     </property>
-                     <property name="pageStep">
-                      <number>0</number>
-                     </property>
-                    </widget>
+                    <widget class="QLineEdit" name="lineEdit_4"/>
                    </item>
                   </layout>
                  </item>
@@ -688,17 +669,7 @@
                     </widget>
                    </item>
                    <item>
-                    <widget class="QDial" name="SetPoint_2">
-                     <property name="minimum">
-                      <number>-180</number>
-                     </property>
-                     <property name="maximum">
-                      <number>180</number>
-                     </property>
-                     <property name="pageStep">
-                      <number>0</number>
-                     </property>
-                    </widget>
+                    <widget class="QLineEdit" name="lineEdit_5"/>
                    </item>
                   </layout>
                  </item>
@@ -708,11 +679,184 @@
              </layout>
             </widget>
            </item>
+           <item>
+            <widget class="QWidget" name="widget" native="true">
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <item>
+               <widget class="QLineEdit" name="rp">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="ri">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="rd">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="rrp">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="rri">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="rrd">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="Line" name="line_5">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="pp">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="pi">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="pd">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="ppp">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="ppi">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="ppd">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="Line" name="line_6">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="yp">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="yi">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="yd">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="yyp">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="yyi">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLineEdit" name="yyd">
+                <property name="text">
+                 <string>0</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
           </layout>
           <zorder>verticalSlider</zorder>
           <zorder>verticalOutput</zorder>
           <zorder>controll</zorder>
+          <zorder>widget</zorder>
          </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="Line" name="line_4">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>頁面</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="QLineEdit" name="fr"/>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="fl"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLineEdit" name="br"/>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="bl"/>
         </item>
        </layout>
       </widget>

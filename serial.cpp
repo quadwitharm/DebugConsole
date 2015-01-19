@@ -256,7 +256,6 @@ void Serial::setParity(ParityType parity)
 
 bool Serial::applySetting()
 {
-    config.c_cflag |= CRTSCTS;
     if(ttyFd != -1)
     {
         mutex.lock();

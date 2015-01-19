@@ -78,5 +78,12 @@ void PlotHelper::Reset(QCustomPlot *qcp)
     this->qcp->yAxis->setLabel("Degree");
     this->qcp->xAxis->setRange(rightPoint - timeRange, rightPoint);
     this->qcp->yAxis->setRange(0 - valueRange, 0 + valueRange);
+
+    QPen blueDotPen;
+    blueDotPen.setColor(QColor(255, 40, 0, 150));
+    blueDotPen.setStyle(Qt::DotLine);
+    blueDotPen.setWidthF(2);
+    this->qcp->graph(0)->setPen(blueDotPen);
+
     this->qcp->replot();
 }

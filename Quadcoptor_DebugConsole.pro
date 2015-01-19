@@ -31,4 +31,5 @@ HEADERS  += mainwindow.h \
     Controller \
     controllerplot.h
 
-FORMS    += mainwindow.ui
+FORMS    += \
+    mainwindow.ui

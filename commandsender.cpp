@@ -15,6 +15,7 @@ void CommandSender::SendCommand(Command cmd)
     qDebug() << "Command send:" << packet.toHex();
     for(int i = 0;i < packet.size();++i){
         serial->writeToPort(packet.data()+i,1);
+        QThread::msleep(80);
     }
 }
 
@@ -36,7 +37,7 @@ QByteArray Command::getDataPacket()
         checksum += rawcmd[i] ;
     }
     rawcmd.append(checksum);
-    return rawcmd.toBase64().append((char)0xFF);
+    return rawcmd.toBase64().append((unsigned char)0x86);
 }
 
 DebugCommand::DebugCommand(QString str)

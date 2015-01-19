@@ -1,5 +1,6 @@
 #include <QDir>
 #include <QMessageBox>
+#include <QTimer>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -11,8 +12,8 @@ Q_DECLARE_METATYPE(ParityType)
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    serial(this),
-    controllerLine1(2), controllerLine2(2), controllerLine3(2),
+    serial(this),timer(new QTimer(this)),
+    controllerLine1(3), controllerLine2(3), controllerLine3(3),
     grawLine1(1), grawLine2(1), grawLine3(1),
     arawLine1(1), arawLine2(1), arawLine3(1),
     filterLine1(1), filterLine2(1), filterLine3(1)
@@ -32,30 +33,36 @@ MainWindow::MainWindow(QWidget *parent) :
     controllerLine1.Reset(ui->plotWidget1);
     controllerLine2.Reset(ui->plotWidget2);
     controllerLine3.Reset(ui->plotWidget3);
+    controllerLine1.setValueRange(180);
+    controllerLine2.setValueRange(180);
+    controllerLine3.setValueRange(180);
+    controllerLine1.setFrequency(1.0/10.0f);
+    controllerLine2.setFrequency(1.0/10.0f);
+    controllerLine3.setFrequency(1.0/10.0f);
     grawLine1.Reset(ui->GyroRoll);
     grawLine2.Reset(ui->GyroPitch);
     grawLine3.Reset(ui->GyroYaw);
-    grawLine1.setFrequency(1.0/10.0);
-    grawLine2.setFrequency(1.0/10.0);
-    grawLine3.setFrequency(1.0/10.0);
-    grawLine1.setValueRange(3200);
-    grawLine2.setValueRange(3200);
-    grawLine3.setValueRange(3200);
+    grawLine1.setFrequency(1.0/10.0f);
+    grawLine2.setFrequency(1.0/10.0f);
+    grawLine3.setFrequency(1.0/10.0f);
+    grawLine1.setValueRange(100);
+    grawLine2.setValueRange(100);
+    grawLine3.setValueRange(100);
     arawLine1.Reset(ui->AccelX);
     arawLine2.Reset(ui->AccelY);
     arawLine3.Reset(ui->AccelZ);
-    arawLine1.setFrequency(1.0/10.0);
-    arawLine2.setFrequency(1.0/10.0);
-    arawLine3.setFrequency(1.0/10.0);
+    arawLine1.setFrequency(1.0/10.0f);
+    arawLine2.setFrequency(1.0/10.0f);
+    arawLine3.setFrequency(1.0/10.0f);
     arawLine1.setValueRange(800);
     arawLine2.setValueRange(800);
     arawLine3.setValueRange(800);
     filterLine1.Reset(ui->filterAngleRoll);
     filterLine2.Reset(ui->filterAnglePitch);
     filterLine3.Reset(ui->filterAngleYaw);
-    filterLine1.setFrequency(1.0/10.0);
-    filterLine2.setFrequency(1.0/10.0);
-    filterLine3.setFrequency(1.0/10.0);
+    filterLine1.setFrequency(1.0/10.0f);
+    filterLine2.setFrequency(1.0/10.0f);
+    filterLine3.setFrequency(1.0/10.0f);
     filterLine1.setValueRange(180);
     filterLine2.setValueRange(180);
     filterLine3.setValueRange(180);
@@ -91,6 +98,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ip,&InputProcessor::GotComplementFilterPitch,&filterLine2,&PlotHelper::NewData);
     connect(ip,&InputProcessor::GotComplementFilterYaw,&filterLine3,&PlotHelper::NewData);
 
+    connect(ip,&InputProcessor::GotComplementFilterRoll,&controllerLine1,&PlotHelper::NewData);
+    connect(ip,&InputProcessor::GotComplementFilterPitch,&controllerLine2,&PlotHelper::NewData);
+    connect(ip,&InputProcessor::GotComplementFilterYaw,&controllerLine3,&PlotHelper::NewData);
+
     // Parameter Set
     connect(ui->roll_kp,&QSlider::sliderReleased,this,&MainWindow::sendRollPIDParam);
     connect(ui->roll_ki,&QSlider::sliderReleased,this,&MainWindow::sendRollPIDParam);
@@ -116,8 +127,36 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->yaw_rate_ki_2,&QSlider::sliderReleased,this,&MainWindow::sendYawRatePIDParam);
     connect(ui->yaw_rate_kd_2,&QSlider::sliderReleased,this,&MainWindow::sendYawRatePIDParam);
 
+    connect(ui->rp,&QLineEdit::returnPressed,this,&MainWindow::sRollPIDParam);
+    connect(ui->ri,&QLineEdit::returnPressed,this,&MainWindow::sRollPIDParam);
+    connect(ui->rd,&QLineEdit::returnPressed,this,&MainWindow::sRollPIDParam);
+    connect(ui->rrp,&QLineEdit::returnPressed,this,&MainWindow::sRollRatePIDParam);
+    connect(ui->rri,&QLineEdit::returnPressed,this,&MainWindow::sRollRatePIDParam);
+    connect(ui->rrd,&QLineEdit::returnPressed,this,&MainWindow::sRollRatePIDParam);
+
+    connect(ui->pp,&QLineEdit::returnPressed,this,&MainWindow::sPitchPIDParam);
+    connect(ui->pi,&QLineEdit::returnPressed,this,&MainWindow::sPitchPIDParam);
+    connect(ui->pd,&QLineEdit::returnPressed,this,&MainWindow::sPitchPIDParam);
+    connect(ui->ppp,&QLineEdit::returnPressed,this,&MainWindow::sPitchRatePIDParam);
+    connect(ui->ppi,&QLineEdit::returnPressed,this,&MainWindow::sPitchRatePIDParam);
+    connect(ui->ppd,&QLineEdit::returnPressed,this,&MainWindow::sPitchRatePIDParam);
+
+    connect(ui->yp,&QLineEdit::returnPressed,this,&MainWindow::sYawPIDParam);
+    connect(ui->yi,&QLineEdit::returnPressed,this,&MainWindow::sYawPIDParam);
+    connect(ui->yd,&QLineEdit::returnPressed,this,&MainWindow::sYawPIDParam);
+    connect(ui->yyp,&QLineEdit::returnPressed,this,&MainWindow::sYawRatePIDParam);
+    connect(ui->yyi,&QLineEdit::returnPressed,this,&MainWindow::sYawRatePIDParam);
+    connect(ui->yyd,&QLineEdit::returnPressed,this,&MainWindow::sYawRatePIDParam);
+
     connect(ui->verticalSlider,&QSlider::sliderReleased,this,&MainWindow::verticalSlider);
+
+    connect(ui->bl,&QLineEdit::returnPressed,this,&MainWindow::sendmotor);
+    connect(ui->fl,&QLineEdit::returnPressed,this,&MainWindow::sendmotor);
+    connect(ui->fr,&QLineEdit::returnPressed,this,&MainWindow::sendmotor);
+    connect(ui->br,&QLineEdit::returnPressed,this,&MainWindow::sendmotor);
 }
+
+
 
 MainWindow::~MainWindow()
 {
@@ -182,10 +221,16 @@ void MainWindow::on_openButton_pressed()
     connect(&serial,&Serial::signalReceied,ip,&InputProcessor::GetInput);
     serial.start(QThread::LowestPriority);
     serial.startThread();
+
+    connect(timer,&QTimer::timeout,this,&MainWindow::sendRollRatePIDParam);
+    timer->setInterval(100);
+    //timer->start();
 }
 
 void MainWindow::on_closeButton_pressed()
 {
+    timer->stop();
+
     disconnect(&serial,&Serial::signalReceied,ip,&InputProcessor::GetInput);
     serial.closeDevice();
 
@@ -211,7 +256,12 @@ void MainWindow::on_Send_pressed()
 
 void MainWindow::sendRollPIDParam()
 {
-    float data[3] = {(float)ui->roll_kp->value(), (float)ui->roll_ki->value(), (float)ui->roll_kd->value()};
+    float data[3] = {(float)ui->roll_kp->value()/100.0f, (float)ui->roll_ki->value()/100.0f, (float)ui->roll_kd->value()/100.0f};
+    u_int8_t *a = (u_int8_t *)data;
+    for(int i = 0;i < 12;++i){
+        qDebug() << a[i];
+    }
+    qDebug() << data[0] << data[1] << data[2];
     cs->SendCommand(
         Command(0x04,
             QByteArray().append((char)0x00).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
@@ -221,7 +271,7 @@ void MainWindow::sendRollPIDParam()
 
 void MainWindow::sendPitchPIDParam()
 {
-    float data[3] = {(float)ui->pitch_kp_3->value(), (float)ui->pitch_ki_3->value(), (float)ui->pitch_kd_3->value()};
+    float data[3] = {(float)ui->pitch_kp_3->value()/1000.0f, (float)ui->pitch_ki_3->value()/1000.0f, (float)ui->pitch_kd_3->value()/1000.0f};
     cs->SendCommand(
         Command(0x04,
             QByteArray().append((char)0x01).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
@@ -231,17 +281,17 @@ void MainWindow::sendPitchPIDParam()
 
 void MainWindow::sendYawPIDParam()
 {
-    float data[3] = {(float)ui->yaw_kp_2->value(), (float)ui->yaw_ki_2->value(), (float)ui->yaw_kd_2->value()};
+    float data[3] = {(float)ui->yaw_kp_2->value()/1000.0f, (float)ui->yaw_ki_2->value()/1000.0f, (float)ui->yaw_kd_2->value()/1000.0f};
     cs->SendCommand(
         Command(0x04,
-            QByteArray().append((char)0x01).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+            QByteArray().append((char)0x02).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
         )
     );
 }
 
 void MainWindow::sendRollRatePIDParam()
 {
-    float data[3] = {(float)ui->roll_rate_kp->value(), (float)ui->roll_rate_ki->value(), (float)ui->roll_rate_kd->value()};
+    float data[3] = {(float)ui->roll_rate_kp->value()/1000.0f, (float)ui->roll_rate_ki->value()/1000.0f, (float)ui->roll_rate_kd->value()/1000.0f};
     cs->SendCommand(
         Command(0x04,
             QByteArray().append((char)0x03).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
@@ -251,7 +301,7 @@ void MainWindow::sendRollRatePIDParam()
 
 void MainWindow::sendPitchRatePIDParam()
 {
-    float data[3] = {(float)ui->pitch_rate_kp_3->value(), (float)ui->pitch_rate_ki_3->value(), (float)ui->pitch_rate_kd_3->value()};
+    float data[3] = {(float)ui->pitch_rate_kp_3->value()/1000.0f, (float)ui->pitch_rate_ki_3->value()/1000.0f, (float)ui->pitch_rate_kd_3->value()/1000.0f};
     cs->SendCommand(
         Command(0x04,
             QByteArray().append((char)0x04).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
@@ -261,7 +311,67 @@ void MainWindow::sendPitchRatePIDParam()
 
 void MainWindow::sendYawRatePIDParam()
 {
-    float data[3] = {(float)ui->yaw_rate_kp_2->value(), (float)ui->yaw_rate_ki_2->value(), (float)ui->yaw_rate_kd_2->value()};
+    float data[3] = {(float)ui->yaw_rate_kp_2->value()/1000.0f, (float)ui->yaw_rate_ki_2->value()/1000.0f, (float)ui->yaw_rate_kd_2->value()/1000.0f};
+    cs->SendCommand(
+        Command(0x04,
+            QByteArray().append((char)0x05).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+                );
+}
+
+void MainWindow::sRollPIDParam()
+{
+    float data[3] = {ui->rp->text().toFloat(), ui->ri->text().toFloat(), ui->rd->text().toFloat()};
+    cs->SendCommand(
+        Command(0x04,
+            QByteArray().append((char)0x00).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+    );
+}
+
+void MainWindow::sPitchPIDParam()
+{
+    float data[3] = {ui->pp->text().toFloat(), ui->pi->text().toFloat(), ui->pd->text().toFloat()};
+    cs->SendCommand(
+        Command(0x04,
+            QByteArray().append((char)0x01).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+    );
+}
+
+void MainWindow::sYawPIDParam()
+{
+    float data[3] = {ui->yp->text().toFloat(), ui->yi->text().toFloat(), ui->yd->text().toFloat()};
+    cs->SendCommand(
+        Command(0x04,
+            QByteArray().append((char)0x02).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+    );
+}
+
+void MainWindow::sRollRatePIDParam()
+{
+    float data[3] = {ui->rrp->text().toFloat(), ui->rri->text().toFloat(), ui->rrd->text().toFloat()};
+    cs->SendCommand(
+        Command(0x04,
+            QByteArray().append((char)0x03).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+    );
+}
+
+void MainWindow::sPitchRatePIDParam()
+{
+    float data[3] = {ui->ppp->text().toFloat(), ui->ppi->text().toFloat(), ui->ppd->text().toFloat()};
+    cs->SendCommand(
+        Command(0x04,
+            QByteArray().append((char)0x04).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+    );
+}
+
+void MainWindow::sYawRatePIDParam()
+{
+    float data[3] = {ui->yyp->text().toFloat(), ui->yyi->text().toFloat(), ui->yyd->text().toFloat()};
     cs->SendCommand(
         Command(0x04,
             QByteArray().append((char)0x05).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
@@ -271,10 +381,26 @@ void MainWindow::sendYawRatePIDParam()
 
 void MainWindow::sendSetPoints()
 {
-    float data[3] = {(float)ui->SetPoint->value(), (float)ui->SetPoint_3->value(), (float)ui->SetPoint_2->value()};
+    float data[3] = {ui->lineEdit_3->text().toFloat(), ui->lineEdit_4->text().toFloat(), ui->lineEdit_5->text().toFloat()};
     cs->SendCommand(
         Command(0x05,
             QByteArray().append((char)0x00).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+    );
+}
+
+void MainWindow::sendmotor()
+{
+    float data[3] = {ui->fr->text().toFloat(), (float)ui->fl->text().toFloat(), (float)ui->br->text().toFloat()};
+    cs->SendCommand(
+        Command(0x05,
+            QByteArray().append((char)0x00).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
+        )
+    );
+    float dat[1] = { (float)ui->bl->text().toFloat()};
+    cs->SendCommand(
+        Command(0x05,
+            QByteArray().append((char)0x01).append(reinterpret_cast<const char*>(dat),sizeof(float)*1)
         )
     );
 }
@@ -306,6 +432,7 @@ void MainWindow::on_pushButton_2_pressed()
 void MainWindow::verticalSlider()
 {
     float data[1] = {(float)ui->verticalSlider->value() / 1000.0f};
+    qDebug() << (float)ui->verticalSlider->value() / 1000.0f;
     cs->SendCommand(
         Command(0x05,
             QByteArray().append((char)0x01).append(reinterpret_cast<const char*>(data),sizeof(float)*1)
@@ -313,20 +440,31 @@ void MainWindow::verticalSlider()
     );
 }
 
-// Roll
-void MainWindow::on_SetPoint_sliderReleased()
+
+
+void MainWindow::on_lineEdit_2_returnPressed()
 {
-    sendSetPoints();
+    float data[1] = {ui->lineEdit_2->text().toFloat()};
+    qDebug() << ui->lineEdit_2->text().toFloat();
+    cs->SendCommand(
+        Command(0x05,
+            QByteArray().append((char)0x01).append(reinterpret_cast<const char*>(data),sizeof(float)*1)
+        )
+    );
+    ui->verticalSlider->setValue(ui->lineEdit_2->text().toFloat() * 1000.0f);
 }
 
-// Pitch
-void MainWindow::on_SetPoint_3_sliderReleased()
+void MainWindow::on_lineEdit_5_returnPressed()
 {
-    sendSetPoints();
+        sendSetPoints();
 }
 
-// Yaw
-void MainWindow::on_SetPoint_2_sliderReleased()
+void MainWindow::on_lineEdit_4_returnPressed()
 {
-    sendSetPoints();
+        sendSetPoints();
+}
+
+void MainWindow::on_lineEdit_3_returnPressed()
+{
+        sendSetPoints();
 }
