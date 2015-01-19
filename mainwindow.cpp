@@ -149,11 +149,6 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->yyd,&QLineEdit::returnPressed,this,&MainWindow::sYawRatePIDParam);
 
     connect(ui->verticalSlider,&QSlider::sliderReleased,this,&MainWindow::verticalSlider);
-
-    connect(ui->bl,&QLineEdit::returnPressed,this,&MainWindow::sendmotor);
-    connect(ui->fl,&QLineEdit::returnPressed,this,&MainWindow::sendmotor);
-    connect(ui->fr,&QLineEdit::returnPressed,this,&MainWindow::sendmotor);
-    connect(ui->br,&QLineEdit::returnPressed,this,&MainWindow::sendmotor);
 }
 
 
@@ -385,22 +380,6 @@ void MainWindow::sendSetPoints()
     cs->SendCommand(
         Command(0x05,
             QByteArray().append((char)0x00).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
-        )
-    );
-}
-
-void MainWindow::sendmotor()
-{
-    float data[3] = {ui->fr->text().toFloat(), (float)ui->fl->text().toFloat(), (float)ui->br->text().toFloat()};
-    cs->SendCommand(
-        Command(0x05,
-            QByteArray().append((char)0x00).append(reinterpret_cast<const char*>(data),sizeof(float)*3)
-        )
-    );
-    float dat[1] = { (float)ui->bl->text().toFloat()};
-    cs->SendCommand(
-        Command(0x05,
-            QByteArray().append((char)0x01).append(reinterpret_cast<const char*>(dat),sizeof(float)*1)
         )
     );
 }
