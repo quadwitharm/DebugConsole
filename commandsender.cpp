@@ -2,7 +2,7 @@
 #include "serial.h"
 #include <iostream>
 
-#define COMMAND_SEND_INTERNAL 0 //80
+#define COMMAND_SEND_INTERNAL 0//80
 
 CommandSender::CommandSender(QObject *parent, Serial *serial)
  : QObject(parent), serial(serial)

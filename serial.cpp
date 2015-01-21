@@ -20,7 +20,6 @@ Serial::Serial(QObject *parent) :
     /*
      *make sure config struct is filled with zero
     */
-
     memset(&config,0,sizeof(config));
     config.c_cc[VMIN]=0;
     config.c_cc[VTIME]=0;
@@ -34,7 +33,6 @@ Serial::Serial(QObject *parent) :
      *default size 8
      *baud rate 9600
      */
-
     config.c_cflag = CREAD | CLOCAL | CS8 | B9600;
 }
 
@@ -49,13 +47,9 @@ bool Serial::openDevice()
         return false ;
     }
 
-
     /*
      *set tty flag such that idoes not wait when we use read function
      */
-
-
-
     fcntl(ttyFd,F_SETFL,O_NONBLOCK | O_TRUNC);
     ret = applySetting();
     if(ret)
