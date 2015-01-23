@@ -25,12 +25,23 @@ public slots:
 
 private slots:
     void on_openButton_pressed();
-
     void on_closeButton_pressed();
-
     void on_clearButton_pressed();
-
     void on_Send_pressed();
+
+    void rollPIDPressed();
+    void pitchPIDPressed();
+    void yawPIDPressed();
+    void rollRatePIDPressed();
+    void pitchRatePIDPressed();
+    void yawRatePIDPressed();
+
+    void rollSliderChanged();
+    void pitchSliderChanged();
+    void yawSliderChanged();
+    void rollRateSliderChanged();
+    void pitchRateSliderChanged();
+    void yawRateSliderChanged();
 
     void sendRollPIDParam();
     void sendPitchPIDParam();
@@ -39,31 +50,25 @@ private slots:
     void sendPitchRatePIDParam();
     void sendYawRatePIDParam();
 
-    void sRollPIDParam();
-    void sPitchPIDParam();
-    void sYawPIDParam();
-    void sRollRatePIDParam();
-    void sPitchRatePIDParam();
-    void sYawRatePIDParam();
-
 
     void on_pushButton_pressed();
-
     void on_pushButton_4_pressed();
-
     void on_pushButton_3_pressed();
-
     void on_pushButton_2_pressed();
 
 
     void on_lineEdit_2_returnPressed();
-
-
     void on_lineEdit_5_returnPressed();
-
     void on_lineEdit_4_returnPressed();
-
     void on_lineEdit_3_returnPressed();
+signals:
+
+    void rollPIDReleased();
+    void pitchPIDReleased();
+    void yawPIDReleased();
+    void rollRatePIDReleased();
+    void pitchRatePIDReleased();
+    void yawRatePIDReleased();
 
 private:
     void sendSetPoints();

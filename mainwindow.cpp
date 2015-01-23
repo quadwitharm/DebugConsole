@@ -103,50 +103,52 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ip,&InputProcessor::GotComplementFilterYaw,&controllerLine3,&PlotHelper::NewData);
 
     // Parameter Set
-    connect(ui->roll_kp,&QSlider::sliderReleased,this,&MainWindow::sendRollPIDParam);
-    connect(ui->roll_ki,&QSlider::sliderReleased,this,&MainWindow::sendRollPIDParam);
-    connect(ui->roll_kd,&QSlider::sliderReleased,this,&MainWindow::sendRollPIDParam);
 
-    connect(ui->pitch_kp_3,&QSlider::sliderReleased,this,&MainWindow::sendPitchPIDParam);
-    connect(ui->pitch_ki_3,&QSlider::sliderReleased,this,&MainWindow::sendPitchPIDParam);
-    connect(ui->pitch_kd_3,&QSlider::sliderReleased,this,&MainWindow::sendPitchPIDParam);
+    // TODO: implement Start, End send parameter slot, and a generic send command method
+    connect(ui->roll_kp,&QSlider::sliderPressed,this,&MainWindow::rollPIDPressed);
 
-    connect(ui->yaw_kp_2,&QSlider::sliderReleased,this,&MainWindow::sendYawPIDParam);
-    connect(ui->yaw_ki_2,&QSlider::sliderReleased,this,&MainWindow::sendYawPIDParam);
-    connect(ui->yaw_kd_2,&QSlider::sliderReleased,this,&MainWindow::sendYawPIDParam);
 
-    connect(ui->roll_rate_kp,&QSlider::sliderReleased,this,&MainWindow::sendRollRatePIDParam);
-    connect(ui->roll_rate_ki,&QSlider::sliderReleased,this,&MainWindow::sendRollRatePIDParam);
-    connect(ui->roll_rate_kd,&QSlider::sliderReleased,this,&MainWindow::sendRollRatePIDParam);
+    connect(ui->roll_kp,&QSlider::sliderReleased,this,&MainWindow::rollSliderChanged);
+    connect(ui->roll_ki,&QSlider::sliderReleased,this,&MainWindow::rollSliderChanged);
+    connect(ui->roll_kd,&QSlider::sliderReleased,this,&MainWindow::rollSliderChanged);
+    connect(ui->pitch_kp_3,&QSlider::sliderReleased,this,&MainWindow::pitchSliderChanged);
+    connect(ui->pitch_ki_3,&QSlider::sliderReleased,this,&MainWindow::pitchSliderChanged);
+    connect(ui->pitch_kd_3,&QSlider::sliderReleased,this,&MainWindow::pitchSliderChanged);
 
-    connect(ui->pitch_rate_kp_3,&QSlider::sliderReleased,this,&MainWindow::sendPitchRatePIDParam);
-    connect(ui->pitch_rate_ki_3,&QSlider::sliderReleased,this,&MainWindow::sendPitchRatePIDParam);
-    connect(ui->pitch_rate_kd_3,&QSlider::sliderReleased,this,&MainWindow::sendPitchRatePIDParam);
+    connect(ui->yaw_kp_2,&QSlider::sliderReleased,this,&MainWindow::yawSliderChanged);
+    connect(ui->yaw_ki_2,&QSlider::sliderReleased,this,&MainWindow::yawSliderChanged);
+    connect(ui->yaw_kd_2,&QSlider::sliderReleased,this,&MainWindow::yawSliderChanged);
+    connect(ui->roll_rate_kp,&QSlider::sliderReleased,this,&MainWindow::rollRateSliderChanged);
+    connect(ui->roll_rate_ki,&QSlider::sliderReleased,this,&MainWindow::rollRateSliderChanged);
+    connect(ui->roll_rate_kd,&QSlider::sliderReleased,this,&MainWindow::rollRateSliderChanged);
 
-    connect(ui->yaw_rate_kp_2,&QSlider::sliderReleased,this,&MainWindow::sendYawRatePIDParam);
-    connect(ui->yaw_rate_ki_2,&QSlider::sliderReleased,this,&MainWindow::sendYawRatePIDParam);
-    connect(ui->yaw_rate_kd_2,&QSlider::sliderReleased,this,&MainWindow::sendYawRatePIDParam);
+    connect(ui->pitch_rate_kp_3,&QSlider::sliderReleased,this,&MainWindow::pitchRateSliderChanged);
+    connect(ui->pitch_rate_ki_3,&QSlider::sliderReleased,this,&MainWindow::pitchRateSliderChanged);
+    connect(ui->pitch_rate_kd_3,&QSlider::sliderReleased,this,&MainWindow::pitchRateSliderChanged);
+    connect(ui->yaw_rate_kp_2,&QSlider::sliderReleased,this,&MainWindow::yawRateSliderChanged);
+    connect(ui->yaw_rate_ki_2,&QSlider::sliderReleased,this,&MainWindow::yawRateSliderChanged);
+    connect(ui->yaw_rate_kd_2,&QSlider::sliderReleased,this,&MainWindow::yawRateSliderChanged);
 
-    connect(ui->rp,&QLineEdit::returnPressed,this,&MainWindow::sRollPIDParam);
-    connect(ui->ri,&QLineEdit::returnPressed,this,&MainWindow::sRollPIDParam);
-    connect(ui->rd,&QLineEdit::returnPressed,this,&MainWindow::sRollPIDParam);
-    connect(ui->rrp,&QLineEdit::returnPressed,this,&MainWindow::sRollRatePIDParam);
-    connect(ui->rri,&QLineEdit::returnPressed,this,&MainWindow::sRollRatePIDParam);
-    connect(ui->rrd,&QLineEdit::returnPressed,this,&MainWindow::sRollRatePIDParam);
+    connect(ui->rp,&QLineEdit::returnPressed,this,&MainWindow::sendRollPIDParam);
+    connect(ui->ri,&QLineEdit::returnPressed,this,&MainWindow::sendRollPIDParam);
+    connect(ui->rd,&QLineEdit::returnPressed,this,&MainWindow::sendRollPIDParam);
+    connect(ui->rrp,&QLineEdit::returnPressed,this,&MainWindow::sendRollRatePIDParam);
+    connect(ui->rri,&QLineEdit::returnPressed,this,&MainWindow::sendRollRatePIDParam);
+    connect(ui->rrd,&QLineEdit::returnPressed,this,&MainWindow::sendRollRatePIDParam);
 
-    connect(ui->pp,&QLineEdit::returnPressed,this,&MainWindow::sPitchPIDParam);
-    connect(ui->pi,&QLineEdit::returnPressed,this,&MainWindow::sPitchPIDParam);
-    connect(ui->pd,&QLineEdit::returnPressed,this,&MainWindow::sPitchPIDParam);
-    connect(ui->ppp,&QLineEdit::returnPressed,this,&MainWindow::sPitchRatePIDParam);
-    connect(ui->ppi,&QLineEdit::returnPressed,this,&MainWindow::sPitchRatePIDParam);
-    connect(ui->ppd,&QLineEdit::returnPressed,this,&MainWindow::sPitchRatePIDParam);
+    connect(ui->pp,&QLineEdit::returnPressed,this,&MainWindow::sendPitchPIDParam);
+    connect(ui->pi,&QLineEdit::returnPressed,this,&MainWindow::sendPitchPIDParam);
+    connect(ui->pd,&QLineEdit::returnPressed,this,&MainWindow::sendPitchPIDParam);
+    connect(ui->ppp,&QLineEdit::returnPressed,this,&MainWindow::sendPitchRatePIDParam);
+    connect(ui->ppi,&QLineEdit::returnPressed,this,&MainWindow::sendPitchRatePIDParam);
+    connect(ui->ppd,&QLineEdit::returnPressed,this,&MainWindow::sendPitchRatePIDParam);
 
-    connect(ui->yp,&QLineEdit::returnPressed,this,&MainWindow::sYawPIDParam);
-    connect(ui->yi,&QLineEdit::returnPressed,this,&MainWindow::sYawPIDParam);
-    connect(ui->yd,&QLineEdit::returnPressed,this,&MainWindow::sYawPIDParam);
-    connect(ui->yyp,&QLineEdit::returnPressed,this,&MainWindow::sYawRatePIDParam);
-    connect(ui->yyi,&QLineEdit::returnPressed,this,&MainWindow::sYawRatePIDParam);
-    connect(ui->yyd,&QLineEdit::returnPressed,this,&MainWindow::sYawRatePIDParam);
+    connect(ui->yp,&QLineEdit::returnPressed,this,&MainWindow::sendYawPIDParam);
+    connect(ui->yi,&QLineEdit::returnPressed,this,&MainWindow::sendYawPIDParam);
+    connect(ui->yd,&QLineEdit::returnPressed,this,&MainWindow::sendYawPIDParam);
+    connect(ui->yyp,&QLineEdit::returnPressed,this,&MainWindow::sendYawRatePIDParam);
+    connect(ui->yyi,&QLineEdit::returnPressed,this,&MainWindow::sendYawRatePIDParam);
+    connect(ui->yyd,&QLineEdit::returnPressed,this,&MainWindow::sendYawRatePIDParam);
 
     connect(ui->verticalSlider,&QSlider::sliderReleased,this,&MainWindow::verticalSlider);
 }
@@ -216,7 +218,7 @@ void MainWindow::on_openButton_pressed()
     serial.start(QThread::LowestPriority);
     serial.startThread();
 
-    connect(timer,&QTimer::timeout,this,&MainWindow::sendRollRatePIDParam);
+    connect(timer,&QTimer::timeout,this,&MainWindow::rollRateSliderChanged);
     timer->setInterval(100);
 #if REPEAT_CMD_SEND
     timer->start();
@@ -253,9 +255,72 @@ void MainWindow::on_Send_pressed()
     cs->SendCommand(DebugCommand(ui->lineEdit->text()));
 }
 
+#define SLIDER_COMMAND_INTERVAL 150
+
+void MainWindow::rollPIDPressed()
+{
+    QTimer *timer = new QTimer(this);
+    connect(this,&MainWindow::rollPIDReleased,[timer](){
+        timer->stop();
+        timer->deleteLater();
+    });
+    connect(timer,&QTimer::timeout,this,&MainWindow::rollSliderChanged);
+    timer->start(SLIDER_COMMAND_INTERVAL);
+}
+
+void MainWindow::pitchPIDPressed(){
+    QTimer *timer = new QTimer(this);
+    connect(this,&MainWindow::pitchPIDReleased,[timer](){
+        timer->stop();
+        timer->deleteLater();
+    });
+    connect(timer,&QTimer::timeout,this,&MainWindow::pitchSliderChanged);
+    timer->start(SLIDER_COMMAND_INTERVAL);
+}
+
+void MainWindow::yawPIDPressed(){
+    QTimer *timer = new QTimer(this);
+    connect(this,&MainWindow::yawPIDReleased,[timer](){
+        timer->stop();
+        timer->deleteLater();
+    });
+    connect(timer,&QTimer::timeout,this,&MainWindow::yawSliderChanged);
+    timer->start(SLIDER_COMMAND_INTERVAL);
+}
+
+void MainWindow::rollRatePIDPressed(){
+    QTimer *timer = new QTimer(this);
+    connect(this,&MainWindow::rollRatePIDReleased,[timer](){
+        timer->stop();
+        timer->deleteLater();
+    });
+    connect(timer,&QTimer::timeout,this,&MainWindow::rollRateSliderChanged);
+    timer->start(SLIDER_COMMAND_INTERVAL);
+}
+
+void MainWindow::pitchRatePIDPressed(){
+    QTimer *timer = new QTimer(this);
+    connect(this,&MainWindow::pitchRatePIDReleased,[timer](){
+        timer->stop();
+        timer->deleteLater();
+    });
+    connect(timer,&QTimer::timeout,this,&MainWindow::pitchRateSliderChanged);
+    timer->start(SLIDER_COMMAND_INTERVAL);
+}
+
+void MainWindow::yawRatePIDPressed(){
+    QTimer *timer = new QTimer(this);
+    connect(this,&MainWindow::yawRatePIDReleased,[timer](){
+        timer->stop();
+        timer->deleteLater();
+    });
+    connect(timer,&QTimer::timeout,this,&MainWindow::yawRateSliderChanged);
+    timer->start(SLIDER_COMMAND_INTERVAL);
+}
+
 #define ROLL_PID_SCALE 1000.0f
 // Roll stab pid parameter
-void MainWindow::sRollPIDParam()
+void MainWindow::sendRollPIDParam()
 {
     float data[3] = {ui->rp->text().toFloat(), ui->ri->text().toFloat(), ui->rd->text().toFloat()};
     ui->roll_kp->setValue(data[0] * ROLL_PID_SCALE);
@@ -267,17 +332,17 @@ void MainWindow::sRollPIDParam()
         )
     );
 }
-void MainWindow::sendRollPIDParam()
+void MainWindow::rollSliderChanged()
 {
     ui->rp->setText(QString::number(ui->roll_kp->value() / ROLL_PID_SCALE));
     ui->ri->setText(QString::number(ui->roll_ki->value() / ROLL_PID_SCALE));
     ui->rd->setText(QString::number(ui->roll_kd->value() / ROLL_PID_SCALE));
-    sRollPIDParam();
+    sendRollPIDParam();
 }
 
 #define PITCH_PID_SCALE 1000.0f
 // Pitch stab pid parameter
-void MainWindow::sPitchPIDParam()
+void MainWindow::sendPitchPIDParam()
 {
     float data[3] = {ui->pp->text().toFloat(), ui->pi->text().toFloat(), ui->pd->text().toFloat()};
     ui->pitch_kp_3->setValue(data[0] * PITCH_PID_SCALE);
@@ -289,17 +354,17 @@ void MainWindow::sPitchPIDParam()
         )
     );
 }
-void MainWindow::sendPitchPIDParam()
+void MainWindow::pitchSliderChanged()
 {
     ui->pp->setText(QString::number(ui->pitch_kp_3->value() / PITCH_PID_SCALE));
     ui->pi->setText(QString::number(ui->pitch_ki_3->value() / PITCH_PID_SCALE));
     ui->pd->setText(QString::number(ui->pitch_kd_3->value() / PITCH_PID_SCALE));
-    sPitchPIDParam();
+    sendPitchPIDParam();
 }
 
 #define YAW_PID_SCALE 1000.0f
 // Yaw stab pid parameter
-void MainWindow::sYawPIDParam()
+void MainWindow::sendYawPIDParam()
 {
     float data[3] = {ui->yp->text().toFloat(), ui->yi->text().toFloat(), ui->yd->text().toFloat()};
     ui->yaw_kp_2->setValue(data[0] * YAW_PID_SCALE);
@@ -311,17 +376,17 @@ void MainWindow::sYawPIDParam()
         )
     );
 }
-void MainWindow::sendYawPIDParam()
+void MainWindow::yawSliderChanged()
 {
     ui->yp->setText(QString::number(ui->yaw_kp_2->value() / YAW_PID_SCALE));
     ui->yi->setText(QString::number(ui->yaw_ki_2->value() / YAW_PID_SCALE));
     ui->yd->setText(QString::number(ui->yaw_kd_2->value() / YAW_PID_SCALE));
-    sYawPIDParam();
+    sendYawPIDParam();
 }
 
 #define ROLL_RATE_PID_SCALE 1000.0f
 // Roll rate pid parameter
-void MainWindow::sRollRatePIDParam()
+void MainWindow::sendRollRatePIDParam()
 {
     float data[3] = {ui->rrp->text().toFloat(), ui->rri->text().toFloat(), ui->rrd->text().toFloat()};
     ui->roll_rate_kp->setValue(data[0] * ROLL_RATE_PID_SCALE);
@@ -333,17 +398,17 @@ void MainWindow::sRollRatePIDParam()
         )
     );
 }
-void MainWindow::sendRollRatePIDParam()
+void MainWindow::rollRateSliderChanged()
 {
     ui->rrp->setText(QString::number(ui->roll_rate_kp->value() / ROLL_RATE_PID_SCALE));
     ui->rri->setText(QString::number(ui->roll_rate_ki->value() / ROLL_RATE_PID_SCALE));
     ui->rrd->setText(QString::number(ui->roll_rate_kd->value() / ROLL_RATE_PID_SCALE));
-    sRollRatePIDParam();
+    sendRollRatePIDParam();
 }
 
 #define PITCH_RATE_PID_SCALE 1000.0f
 // Pitch rate pid parameter
-void MainWindow::sPitchRatePIDParam()
+void MainWindow::sendPitchRatePIDParam()
 {
     float data[3] = {ui->ppp->text().toFloat(), ui->ppi->text().toFloat(), ui->ppd->text().toFloat()};
     ui->pitch_rate_kp_3->setValue(data[0] * PITCH_RATE_PID_SCALE);
@@ -355,17 +420,17 @@ void MainWindow::sPitchRatePIDParam()
         )
     );
 }
-void MainWindow::sendPitchRatePIDParam()
+void MainWindow::pitchRateSliderChanged()
 {
     ui->ppp->setText(QString::number(ui->pitch_rate_kp_3->value() / PITCH_RATE_PID_SCALE));
     ui->ppi->setText(QString::number(ui->pitch_rate_ki_3->value() / PITCH_RATE_PID_SCALE));
     ui->ppd->setText(QString::number(ui->pitch_rate_kd_3->value() / PITCH_RATE_PID_SCALE));
-    sPitchRatePIDParam();
+    sendPitchRatePIDParam();
 }
 
 #define YAW_RATE_PID_SCALE 1000.0f
 // Yaw rate pid parameter
-void MainWindow::sYawRatePIDParam()
+void MainWindow::sendYawRatePIDParam()
 {
     float data[3] = {ui->yyp->text().toFloat(), ui->yyi->text().toFloat(), ui->yyd->text().toFloat()};
     ui->yaw_rate_kp_2->setValue(data[0] * YAW_RATE_PID_SCALE);
@@ -377,12 +442,12 @@ void MainWindow::sYawRatePIDParam()
         )
     );
 }
-void MainWindow::sendYawRatePIDParam()
+void MainWindow::yawRateSliderChanged()
 {
     ui->yyp->setText(QString::number(ui->yaw_rate_kp_2->value() / YAW_RATE_PID_SCALE));
     ui->yyi->setText(QString::number(ui->yaw_rate_ki_2->value() / YAW_RATE_PID_SCALE));
     ui->yyd->setText(QString::number(ui->yaw_rate_kd_2->value() / YAW_RATE_PID_SCALE));
-    sYawRatePIDParam();
+    sendYawRatePIDParam();
 }
 
 
