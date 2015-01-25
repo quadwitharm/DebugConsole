@@ -43,5 +43,6 @@ QByteArray Command::getDataPacket()
 }
 
 DebugCommand::DebugCommand(QString str)
-    :Command((char)str.toInt(), QByteArray())
+    :Command((char)0x6, QByteArray()
+        .append((char)str.size()).append((char)(str.size()>>8)).append(str))
 {  }
